@@ -17,7 +17,7 @@ public class Portfolios {
     @Column(name = "portfolios_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

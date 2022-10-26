@@ -23,7 +23,7 @@ public class File {
     @Column(length = 45, nullable = false)
     private String changedName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 }

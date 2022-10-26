@@ -53,7 +53,7 @@ public class Board {
     @ColumnDefault("0")
     private Integer embNow;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
