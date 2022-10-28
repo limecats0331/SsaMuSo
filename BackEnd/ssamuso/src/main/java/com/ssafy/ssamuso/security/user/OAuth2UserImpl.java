@@ -21,7 +21,7 @@ public class OAuth2UserImpl implements OAuth2User {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return oAuthUserInfo.getAttributes();
     }
 
     @Override

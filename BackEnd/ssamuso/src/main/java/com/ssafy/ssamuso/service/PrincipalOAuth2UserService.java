@@ -6,8 +6,10 @@ import com.ssafy.ssamuso.security.provider.GoogleOAuthUserInfo;
 import com.ssafy.ssamuso.security.provider.NaverOAuthUserInfo;
 import com.ssafy.ssamuso.security.provider.OAuthUserInfo;
 import com.ssafy.ssamuso.security.user.OAuth2UserImpl;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -20,18 +22,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-        OAuth2User oAuth2User = super.loadUser(userRequest);
+        OAuth2User oAuth2User = getOAuth2User(userRequest);
+
         OAuthUserInfo oAuthUserInfo = null;
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
@@ -60,5 +63,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
         return new OAuth2UserImpl(user, oAuthUserInfo);
 
+    }
+
+    public OAuth2User getOAuth2User(OAuth2UserRequest userRequest) {
+        return super.loadUser(userRequest);
     }
 }
