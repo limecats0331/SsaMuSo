@@ -24,16 +24,16 @@ public class S3Servicelogic implements S3Service {
     public String bucket; // S3 버킷 이름
 
     @Override
-    public String upload(MultipartFile multipartFile, String originFileName) throws IOException {
+    public String upload(MultipartFile multipartFile, String originFileName,String changedFileName) throws IOException {
         File uploadFile = convert(multipartFile);
 
-        return upload(uploadFile, originFileName);
+        return upload(uploadFile, originFileName, changedFileName);
     }
 
     // S3로 파일 업로드하기
-    private String upload(File uploadFile, String originFileName) {
+    private String upload(File uploadFile, String originFileName,String changedFileName) {
 
-        String fileName = "files/" + UUID.randomUUID() + uploadFile.getName(); // S3에 저장된 파일 이름
+        String fileName = "files/" + changedFileName + uploadFile.getName(); // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
 
         removeNewFile(uploadFile);

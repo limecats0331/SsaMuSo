@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 public interface S3Service {
-    public String upload(MultipartFile multipartFile, String originFileName) throws IOException ;
-
-
+    public String upload(MultipartFile multipartFile, String originFileName, String changedFileName) throws IOException;
 
 }
