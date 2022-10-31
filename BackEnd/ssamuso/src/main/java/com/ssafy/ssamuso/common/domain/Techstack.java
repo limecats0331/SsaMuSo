@@ -1,4 +1,4 @@
-package com.ssafy.ssamuso.domain.entity;
+package com.ssafy.ssamuso.common.domain;
 
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.*;
