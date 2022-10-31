@@ -1,11 +1,9 @@
-package com.ssafy.ssamuso.domain.entity;
+package com.ssafy.ssamuso.users.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,6 +11,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class User {
 
     @Id
@@ -40,4 +39,7 @@ public class User {
 
     @Column(length = 100, nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserTechstack> userTechstacks;
 }
