@@ -14,9 +14,15 @@ public class UserMyPageService {
     private final UserRepository userRepository;
     private final PortfoliosRepository portfoliosRepository;
 
-    public UserMyPage findMyPageInfo(Long id) {
-        User user = userRepository.findById(id).get();
-        Portfolios portfolios = portfoliosRepository.findById(id).get();
+    public UserMyPage findMyPageInfo(String username) throws IllegalArgumentException {
+        if (!userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("사용자가 없습니다.");
+        }
+        User user = userRepository.findByUsername(username).get();
+        if (!portfoliosRepository.findByUser(user).isPresent()) {
+            throw new IllegalArgumentException("포트폴리오가 없습니다.");
+        }
+        Portfolios portfolios = portfoliosRepository.findByUser(user).get();
         UserMyPage userMyPage = UserMyPage.createUserMyPage(user, portfolios);
         return userMyPage;
     }

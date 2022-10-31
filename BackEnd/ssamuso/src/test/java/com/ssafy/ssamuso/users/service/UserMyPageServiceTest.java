@@ -6,36 +6,32 @@ import com.ssafy.ssamuso.users.dto.UserMyPage;
 import com.ssafy.ssamuso.users.repository.PortfoliosRepository;
 import com.ssafy.ssamuso.users.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
+import java.util.Optional;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserMyPageServiceTest {
-    @Autowired
+    @Mock
     UserRepository userRepository;
-    @Autowired
+    @Mock
     PortfoliosRepository portfoliosRepository;
-    @Autowired
-    UserMyPageService userMyPageService;
+    UserMyPageService userMyPageService = new UserMyPageService(userRepository, portfoliosRepository);
 
     @Test
+    @Transactional
     void getMyPage() throws Exception {
+        Optional<User> user = makeUser();
         //Given
-        User user = makeUser();
-        Portfolios portfolios = makePortfolios(user);
-        User savedUser = userRepository.save(user);
-        Portfolios savedPortfolios = portfoliosRepository.save(portfolios);
+        Mockito.doReturn(makeUser()).when(userRepository).findByUsername("userA");
+        Mockito.doReturn(Optional.of(makePortfolios(user.get()))).when(portfoliosRepository).findByUser(user.get());
 
         //When
-        UserMyPage myPageInfo = userMyPageService.findMyPageInfo(savedUser.getId());
-        UserMyPage userMyPage = UserMyPage.createUserMyPage(savedUser,    savedPortfolios);
+        UserMyPage myPageInfo = userMyPageService.findMyPageInfo("userA");
+        System.out.println("myPageInfo = " + myPageInfo);
 
         //Then
-        assertThat(myPageInfo).isEqualTo(userMyPage);
     }
 
     private static Portfolios makePortfolios(User user) {
@@ -45,7 +41,7 @@ class UserMyPageServiceTest {
         return portfolios;
     }
 
-    private static User makeUser() {
+    private static Optional<User> makeUser() {
         User user = new User();
         user.setUsername("userA");
         user.setPassword("pass");
@@ -53,6 +49,7 @@ class UserMyPageServiceTest {
         user.setArea("gumi");
         user.setClassNum(4);
         user.setProfileImg("src");
-        return user;
+        user.setTrack("mobile");
+        return Optional.of(user);
     }
 }
