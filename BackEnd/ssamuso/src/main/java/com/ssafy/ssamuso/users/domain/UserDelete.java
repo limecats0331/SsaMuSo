@@ -1,4 +1,4 @@
-package com.ssafy.ssamuso.domain.entity;
+package com.ssafy.ssamuso.users.domain;
 
 import lombok.*;
 
