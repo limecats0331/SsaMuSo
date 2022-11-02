@@ -5,19 +5,27 @@ import com.ssafy.ssamuso.users.domain.User;
 import com.ssafy.ssamuso.users.dto.UserMyPage;
 import com.ssafy.ssamuso.users.repository.PortfoliosRepository;
 import com.ssafy.ssamuso.users.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 class UserMyPageServiceTest {
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Mock
-    PortfoliosRepository portfoliosRepository;
-    UserMyPageService userMyPageService = new UserMyPageService(userRepository, portfoliosRepository);
+    private PortfoliosRepository portfoliosRepository;
+    UserMyPageService userMyPageService;
+
+    @BeforeEach
+    void beforeEach() {
+        MockitoAnnotations.openMocks(this);
+        userMyPageService = new UserMyPageService(userRepository, portfoliosRepository);
+    }
 
     @Test
     @Transactional
@@ -25,7 +33,7 @@ class UserMyPageServiceTest {
         Optional<User> user = makeUser();
         //Given
         Mockito.doReturn(makeUser()).when(userRepository).findByUsername("userA");
-        Mockito.doReturn(Optional.of(makePortfolios(user.get()))).when(portfoliosRepository).findByUser(user.get());
+        Mockito.doReturn(makePortfolios(user.get())).when(portfoliosRepository).findByUser(user.get());
 
         //When
         UserMyPage myPageInfo = userMyPageService.findMyPageInfo("userA");
@@ -34,11 +42,11 @@ class UserMyPageServiceTest {
         //Then
     }
 
-    private static Portfolios makePortfolios(User user) {
+    private static Optional<Portfolios> makePortfolios(User user) {
         Portfolios portfolios = new Portfolios();
         portfolios.setUser(user);
         portfolios.setLink("link");
-        return portfolios;
+        return Optional.of(portfolios);
     }
 
     private static Optional<User> makeUser() {
