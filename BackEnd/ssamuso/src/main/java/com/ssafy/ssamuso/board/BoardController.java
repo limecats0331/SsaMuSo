@@ -1,6 +1,7 @@
 package com.ssafy.ssamuso.board;
 
 import com.ssafy.ssamuso.domain.entity.Board;
+import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,52 +22,76 @@ public class BoardController {
 
     @GetMapping
     public ResponseEntity<?> getList(Pageable pageable) {
-        Page<Board> boardList = boardService.getList(pageable);
 
-        return new ResponseEntity<>(boardList, HttpStatus.OK);
+        try{
+            Page<Board> boardList = boardService.getList(pageable);
+            return new ResponseEntity<>(boardList, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 
+
     @PostMapping
     public ResponseEntity<?> wirteBoard(Board board) {
-        Board temp = boardService.insert(board);
 
-        return new ResponseEntity<>(temp, HttpStatus.FOUND);
+        try {
+            Board temp = boardService.insert(board);
+            return new ResponseEntity<>(HttpStatus.MULTIPLE_CHOICES);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) {
-        Optional<Board> boardOptional = boardService.getBoard(id);
 
-        return new ResponseEntity<>(boardOptional.get(), HttpStatus.OK);
+        try{
+            Optional<Board> boardOptional = boardService.getBoard(id);
+            return new ResponseEntity<>(boardOptional.get(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAll(@PathVariable Long id, Board board) {
-        Optional<Board> boardOptional = boardService.getBoard(id);
 
-        board.setId(id);
-        boardService.insert(board);
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> updatePart(@PathVariable Long id, Map<String, String> map) {
-        Optional<Board> board = boardService.getBoard(id);
-
-
-        //querydsl 사용하여 동적인 쿼리로 패치 받기
-        for (String string :map.keySet()) {
-
+        try {
+            Optional<Board> boardOptional = boardService.getBoard(id);
+            board.setId(id);
+            boardService.insert(board);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
     }
+
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<?> updatePart(@PathVariable Long id, Map<String, String> map) {
+//        Optional<Board> board = boardService.getBoard(id);
+//
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long id){
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> deleteBoard(@PathVariable Long id) {
+
+        try {
+            boardService.deleteBoard(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

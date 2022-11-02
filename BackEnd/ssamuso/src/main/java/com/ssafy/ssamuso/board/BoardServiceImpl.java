@@ -2,12 +2,14 @@ package com.ssafy.ssamuso.board;
 
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardDelete;
+import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public Page<Board> getList(Pageable pageable) {
         return boardRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Board> getListByTags(ArrayList<TechName> techNames, Pageable pageable) {
+        return null;
     }
 
     @Override
@@ -38,9 +45,7 @@ public class BoardServiceImpl implements BoardService{
     public int deleteBoard(Long id) {
 
         Optional<Board> boardOptional = boardRepository.findById(id);
-
         boardDeleteRepository.save(new BoardDelete(boardOptional.get()));
-
         boardRepository.deleteById(id);
         return 1;
     }
