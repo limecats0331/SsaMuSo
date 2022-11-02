@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
+
 class UserMyPageServiceTest {
     @Mock
     private UserRepository userRepository;
@@ -24,40 +26,43 @@ class UserMyPageServiceTest {
     @BeforeEach
     void beforeEach() {
         MockitoAnnotations.openMocks(this);
+
+        Optional<User> user = makeUser();
+        Mockito.doReturn(user).when(userRepository).findByUsername("userA");
+        Mockito.doReturn(makePortfolios(user.get())).when(portfoliosRepository).findByUser(user.get());
+
         userMyPageService = new UserMyPageService(userRepository, portfoliosRepository);
     }
 
     @Test
     @Transactional
     void getMyPage() throws Exception {
-        Optional<User> user = makeUser();
-        //Given
-        Mockito.doReturn(makeUser()).when(userRepository).findByUsername("userA");
-        Mockito.doReturn(makePortfolios(user.get())).when(portfoliosRepository).findByUser(user.get());
-
         //When
         UserMyPage myPageInfo = userMyPageService.findMyPageInfo("userA");
-        System.out.println("myPageInfo = " + myPageInfo);
 
         //Then
+        assertThat(myPageInfo.getUsername()).isEqualTo("userA");
+        assertThat(myPageInfo.getPortfolios()).isEqualTo("link");
     }
 
     private static Optional<Portfolios> makePortfolios(User user) {
-        Portfolios portfolios = new Portfolios();
-        portfolios.setUser(user);
-        portfolios.setLink("link");
-        return Optional.of(portfolios);
+        return Optional.of(Portfolios.builder()
+                .user(user)
+                .link("link")
+                .build());
     }
 
     private static Optional<User> makeUser() {
-        User user = new User();
-        user.setUsername("userA");
-        user.setPassword("pass");
-        user.setTerm(8);
-        user.setArea("gumi");
-        user.setClassNum(4);
-        user.setProfileImg("src");
-        user.setTrack("mobile");
-        return Optional.of(user);
+        return Optional.of(User.builder()
+                .id(10L)
+                .username("userA")
+                .classNum(4)
+                .profileImg("src")
+                .password("pass")
+                .track("mobile")
+                .term(8)
+                .area("gumi")
+                .build()
+        );
     }
 }
