@@ -15,7 +15,7 @@ public interface BoardService {
 
     Page<Board> getListByTags(ArrayList<TechName> techNames, Pageable pageable);
 
-    Optional<Board> getBoard(Long id);
+    Board getBoard(Long id);
 
     Board insert(Board board);
 

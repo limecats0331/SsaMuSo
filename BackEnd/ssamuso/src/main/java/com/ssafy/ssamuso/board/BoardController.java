@@ -65,17 +65,17 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAll(@PathVariable Long id, Board board,
+    public ResponseEntity<?> updateAll(@PathVariable Long id,@RequestBody Board board,
                                        @AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        Board tempBoard = boardService.getBoard(id);
         String username = userDetails.getUsername();
         Optional<User> user = tempUserService.findByUsername(username);
-        Optional<Board> boardOptional = boardService.getBoard(id);
 
-        if (!boardOptional.get().getUsername().equals(user.get().getUsername())) {
+        if (tempBoard.getUser().getId()!=user.get().getId()) {
             throw new Exception("not your board");
         }
-
-        boardService.insert(board);
+        tempBoard=board;
+        boardService.insert(tempBoard);
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -95,11 +95,12 @@ public class BoardController {
     public ResponseEntity<?> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String username = userDetails.getUsername();
         Optional<User> user = tempUserService.findByUsername(username);
-        Optional<Board> boardOptional = boardService.getBoard(id);
+        Board tempBoard = boardService.getBoard(id);
 
-        if (!boardOptional.get().getUsername().equals(user.get().getUsername())) {
+        if (tempBoard.getUser().getId()!=user.get().getId()) {
             throw new Exception("not your board");
         }
+
         boardService.deleteBoard(id);
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");

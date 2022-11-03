@@ -2,6 +2,7 @@ package com.ssafy.ssamuso.board;
 
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardDelete;
+import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,8 +32,13 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public Optional<Board> getBoard(Long id) {
-        return boardRepository.findById(id);
+    public Board getBoard(Long id) {
+        Board board = boardRepository.findById(id).get();
+        User user = new User();
+        user.setId(board.getUser().getId());
+        board.setUser(user);
+
+        return board;
     }
 
     @Override
