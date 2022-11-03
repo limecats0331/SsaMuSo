@@ -10,12 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserMyPageServiceTest {
     @Mock
     private UserRepository userRepository;
@@ -35,7 +38,6 @@ class UserMyPageServiceTest {
     }
 
     @Test
-    @Transactional
     void getMyPage() throws Exception {
         //When
         UserMyPage myPageInfo = userMyPageService.findMyPageInfo("userA");
