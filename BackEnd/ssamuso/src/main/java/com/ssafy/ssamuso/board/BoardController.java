@@ -60,8 +60,8 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) throws Exception {
 
-        Optional<Board> boardOptional = boardService.getBoard(id);
-        return new ResponseEntity<>(boardOptional.get(), HttpStatus.OK);
+        Board board = boardService.getBoard(id);
+        return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

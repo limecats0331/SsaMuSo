@@ -1,10 +1,12 @@
 package com.ssafy.ssamuso.domain.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -13,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Board {
+public class Board implements Serializable {
 
     @Id
     @GeneratedValue
@@ -53,7 +55,7 @@ public class Board {
     @ColumnDefault("0")
     private Integer embNow;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
