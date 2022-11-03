@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,9 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class S3Servicelogic implements S3Service {
@@ -24,29 +24,53 @@ public class S3Servicelogic implements S3Service {
     public String bucket; // S3 버킷 이름
 
     @Override
-    public String upload(MultipartFile multipartFile, String originFileName,String changedFileName) throws IOException {
-        File uploadFile = convert(multipartFile);
+    public String upload(MultipartFile multipartFile, String changedFileName) throws Exception {
 
-        return upload(uploadFile, originFileName, changedFileName);
+        String fileName = multipartFile.getOriginalFilename().toLowerCase();
+        if (fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".pdf") || fileName.endsWith(".jpg")
+                || fileName.endsWith(".gif") || fileName.endsWith(".webp")) {
+            File uploadFile = convert(multipartFile);
+            return upload(uploadFile, changedFileName);
+        } else {
+            throw new Exception("파일 확장자 에러");
+        }
+
+    }
+
+    @Override
+    public String upload(MultipartFile multipartFile) throws Exception {
+
+        String fileName = multipartFile.getOriginalFilename().toLowerCase();
+
+        if (fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".pdf") || fileName.endsWith(".jpg")
+                || fileName.endsWith(".gif") || fileName.endsWith(".webp")) {
+
+            File uploadFile = convert(multipartFile);
+            String newFileName = getDateToString() + "-" + UUID.randomUUID();
+
+            return upload(uploadFile, newFileName);
+        } else {
+            throw new Exception("파일 확장자 에러");
+        }
     }
 
     // S3로 파일 업로드하기
-    private String upload(File uploadFile, String originFileName,String changedFileName) {
+    private String upload(File uploadFile, String changedFileName) throws Exception {
 
-        String fileName = "files/" + changedFileName + uploadFile.getName(); // S3에 저장된 파일 이름
+        String fileName = changedFileName + uploadFile.getName(); // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
 
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
-    private void removeNewFile(File targetFile) {
+    private void removeNewFile(File targetFile) throws Exception {
 
         if (targetFile.delete()) {
-            log.info("File delete success");
             return;
+        } else {
+            throw new Exception("delete File Error");
         }
-        log.info("File delete fail");
     }
 
     // S3로 업로드
@@ -66,7 +90,15 @@ public class S3Servicelogic implements S3Service {
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
         fos.close();
+
+
         return convFile;
+    }
+
+    private String getDateToString() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = new Date();
+        return format.format(now);
     }
 
 

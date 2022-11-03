@@ -20,7 +20,7 @@ public class File {
     @Column(length = 300, nullable = false)
     private String originalName;
 
-    @Column(length = 45, nullable = false)
+    @Column(length = 300, nullable = false)
     private String changedName;
 
     @ManyToOne

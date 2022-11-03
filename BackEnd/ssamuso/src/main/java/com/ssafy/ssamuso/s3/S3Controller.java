@@ -22,19 +22,18 @@ public class S3Controller {
     private final S3Service s3Service;
 
     @PostMapping("/fileupload")
-    public ResponseEntity<?> upload(@RequestParam("images") List<MultipartFile> multipartFiles) throws IOException {
-
+    public ResponseEntity<?> upload(@RequestParam("images") List<MultipartFile> multipartFiles) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
-        String temp=null;
+        String temp = null;
         try {
             ArrayList<Integer> img_ids = new ArrayList<Integer>();
             for (MultipartFile multipartFile : multipartFiles) {
-                temp = s3Service.upload(multipartFile, multipartFile.getOriginalFilename(), String.valueOf(UUID.randomUUID()));
+                temp = s3Service.upload(multipartFile, String.valueOf(UUID.randomUUID()));
+
             }
-
-
             result.put("msg", temp);
             return new ResponseEntity<>(result, HttpStatus.OK);
+
         } catch (Exception e) {
             result.put("msg", "ERROR");
             return new ResponseEntity<>(result, HttpStatus.OK);

@@ -1,16 +1,22 @@
 package com.ssafy.ssamuso.board;
 
+import com.ssafy.ssamuso.board.users.TempUserService;
 import com.ssafy.ssamuso.domain.entity.Board;
+import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
+import com.ssafy.ssamuso.file.FileService;
+import com.ssafy.ssamuso.s3.S3Service;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -21,59 +27,58 @@ import java.util.*;
 public class BoardController {
 
     private final BoardService boardService;
+    private final TempUserService tempUserService;
+    private final FileService fileService;
 
     @GetMapping
-    public ResponseEntity<?> getList(Pageable pageable) {
+    public ResponseEntity<?> getList(Pageable pageable) throws Exception {
 
-        try{
-            Page<Board> boardList = boardService.getList(pageable);
-            return new ResponseEntity<>(boardList, HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Page<Board> boardList = boardService.getList(pageable);
+        return new ResponseEntity<>(boardList, HttpStatus.OK);
 
     }
 
 
     @PostMapping
-    public ResponseEntity<?> wirteBoard(Board board, Authentication authentication) {
-        UserDetails userDetails = (UserDetails)authentication.getDetails();
-        try {
-            Board temp = boardService.insert(board);
-            if(temp.getUser().equals(userDetails));
-            return new ResponseEntity<>(HttpStatus.MULTIPLE_CHOICES);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> wirteBoard(Board board, @AuthenticationPrincipal UserDetails userDetails,
+                                        @RequestParam("images") List<MultipartFile> multipartFiles) throws Exception {
+        String username = userDetails.getUsername();
+        Optional<User> user = tempUserService.findByUsername(username);
+        board.setUser(user.get());
+        board = boardService.insert(board);
+
+        for (MultipartFile multipartFile : multipartFiles) {
+            fileService.fileUpload(board.getId(), multipartFile);
         }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("msg", "OK");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBoard(@PathVariable Long id) {
+    public ResponseEntity<?> getBoard(@PathVariable Long id) throws Exception {
 
-        try{
-            Optional<Board> boardOptional = boardService.getBoard(id);
-            return new ResponseEntity<>(boardOptional.get(), HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<Board> boardOptional = boardService.getBoard(id);
+        return new ResponseEntity<>(boardOptional.get(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAll(@PathVariable Long id, Board board,Authentication authentication) {
+    public ResponseEntity<?> updateAll(@PathVariable Long id, Board board,
+                                       @AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String username = userDetails.getUsername();
+        Optional<User> user = tempUserService.findByUsername(username);
+        Optional<Board> boardOptional = boardService.getBoard(id);
 
-        UserDetails userDetails = (UserDetails)authentication.getDetails();
-        try {
-            Optional<Board> boardOptional = boardService.getBoard(id);
-            board.setId(id);
-            boardService.insert(board);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (!boardOptional.get().getUsername().equals(user.get().getUsername())) {
+            throw new Exception("not your board");
         }
+
+        boardService.insert(board);
+        Map<String, Object> result = new HashMap<>();
+        result.put("msg", "OK");
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
 
@@ -87,16 +92,18 @@ public class BoardController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long id,Authentication authentication) {
+    public ResponseEntity<?> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String username = userDetails.getUsername();
+        Optional<User> user = tempUserService.findByUsername(username);
+        Optional<Board> boardOptional = boardService.getBoard(id);
 
-        try {
-            UserDetails userDetails = (UserDetails)authentication.getDetails();
-            boardService.deleteBoard(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (!boardOptional.get().getUsername().equals(user.get().getUsername())) {
+            throw new Exception("not your board");
         }
+        boardService.deleteBoard(id);
+        Map<String, Object> result = new HashMap<>();
+        result.put("msg", "OK");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 

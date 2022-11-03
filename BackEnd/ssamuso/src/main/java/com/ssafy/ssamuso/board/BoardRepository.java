@@ -16,6 +16,4 @@ public interface BoardRepository extends CrudRepository<Board,Long> {
     Page<Board> findAll (Pageable pageable);
 
 
-    Optional<Board> findById(Long id);
-
 }

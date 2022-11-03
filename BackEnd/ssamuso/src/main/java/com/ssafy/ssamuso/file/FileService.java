@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 public interface FileService {
 
-    void save(File file);
 
-    String fileUpload(long brdId, MultipartFile multipartFile);
-
-    String findByChangedName(String fileName);
+    String fileUpload(Long brdId, MultipartFile multipartFile) throws Exception;
 
     ArrayList<File> findByBoardId(long brdId);
+
+    String delete(Long brdId);
 
 }

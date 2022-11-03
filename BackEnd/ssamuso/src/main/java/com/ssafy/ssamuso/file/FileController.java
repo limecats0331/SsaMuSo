@@ -23,24 +23,17 @@ public class FileController {
     @PostMapping("/upload")
     @Transactional
     public ResponseEntity<?> brdImgUpload(long brdId, @RequestParam("images") List<MultipartFile> multipartFiles) {
-
+        System.out.println(brdId);
         Map<String, Object> result = new HashMap<String, Object>();
         String temp = null;
         try {
-            ArrayList<Integer> img_ids = new ArrayList<Integer>();
+            ArrayList<String> img_ids = new ArrayList<>();
             for (MultipartFile multipartFile : multipartFiles) {
-                String originalFileName = multipartFile.getOriginalFilename();
-                String uuid = String.valueOf(UUID.randomUUID());
-                File file = File.builder()
-                        .originalName(originalFileName)
-                        .changedName(uuid)
-                        .board(Board.builder().id(brdId).build())
-                        .build();
-                fileService.save(file);
-                temp = s3Service.upload(multipartFile, originalFileName, uuid);
+
+                fileService.fileUpload(brdId, multipartFile);
             }
 
-            result.put("msg", temp);
+            result.put("msg", "OK");
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             result.put("msg", "ERROR");

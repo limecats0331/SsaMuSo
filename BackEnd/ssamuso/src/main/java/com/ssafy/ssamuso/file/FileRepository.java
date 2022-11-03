@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Repository
 public interface FileRepository extends CrudRepository<File, Long> {
 
+    File save(File file);
     File findByChangedName(String fileName);
-
     ArrayList<File> findByBoardId(long brdId);
 }
