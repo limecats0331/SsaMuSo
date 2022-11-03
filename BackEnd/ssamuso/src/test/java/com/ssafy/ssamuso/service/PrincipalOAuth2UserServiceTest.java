@@ -1,7 +1,7 @@
 package com.ssafy.ssamuso.service;
 
-import com.ssafy.ssamuso.domain.entity.User;
-import com.ssafy.ssamuso.repository.UserRepository;
+import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.users.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
