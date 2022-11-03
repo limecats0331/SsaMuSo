@@ -1,5 +1,6 @@
-package com.ssafy.ssamuso.domain.entity;
+package com.ssafy.ssamuso.users.domain;
 
+import com.ssafy.ssamuso.users.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Portfolios {
 
     @Id

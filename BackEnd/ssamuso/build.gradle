@@ -42,6 +42,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+	testImplementation 'org.mockito:mockito-inline:4.8.1'
 
 	//querydsl 라이브러리 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"

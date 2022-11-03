@@ -8,6 +8,7 @@ class SsamusoApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

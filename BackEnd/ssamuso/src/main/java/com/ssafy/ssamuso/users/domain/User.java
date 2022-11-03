@@ -1,10 +1,11 @@
-package com.ssafy.ssamuso.domain.entity;
+package com.ssafy.ssamuso.users.domain;
 
 import com.ssafy.ssamuso.domain.entity.enumtype.Role;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class User {
 
     @Id
@@ -31,6 +33,7 @@ public class User {
     @Column(length = 10)
     private String area;
 
+    @Column(nullable = false)
     private Integer term;
 
     @Column(length = 20)
@@ -43,6 +46,9 @@ public class User {
 
     @Column(length = 100, nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserTechstack> userTechstacks;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)

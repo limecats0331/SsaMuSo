@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.domain.entity;
 
+import com.ssafy.ssamuso.users.domain.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
