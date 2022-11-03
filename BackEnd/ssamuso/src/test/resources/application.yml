@@ -15,20 +15,20 @@ spring:
 #  logging:
 #    level:
 #      org.hibernate.SQL: debug
-
-
-cloud:
-  aws:
-    credentials:
-      accessKey: AKIAUX4ZADFPUKVDE4TY
-      secretKey: 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
-    s3:
-      bucket: prj-novel
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
-
-logging:
-  level:
-    root: info
+#
+#
+#cloud:
+#  aws:
+#    credentials:
+#      accessKey: AKIAUX4ZADFPUKVDE4TY
+#      secretKey: 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
+#    s3:
+#      bucket: prj-novel
+#    region:
+#      static: ap-northeast-2
+#    stack:
+#      auto: false
+#
+#logging:
+#  level:
+#    root: info
