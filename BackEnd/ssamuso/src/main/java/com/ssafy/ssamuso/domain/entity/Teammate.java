@@ -1,7 +1,7 @@
 package com.ssafy.ssamuso.domain.entity;
 
-import com.ssafy.ssamuso.domain.entity.enumtype.Role;
 import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,7 +31,7 @@ public class Teammate {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private TeamRole role;
 
     private Integer state;
 }
