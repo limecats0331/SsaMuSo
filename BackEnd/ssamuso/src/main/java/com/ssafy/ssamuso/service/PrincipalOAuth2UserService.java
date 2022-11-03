@@ -1,15 +1,13 @@
 package com.ssafy.ssamuso.service;
 
-import com.ssafy.ssamuso.domain.entity.User;
-import com.ssafy.ssamuso.repository.UserRepository;
 import com.ssafy.ssamuso.security.provider.GoogleOAuthUserInfo;
 import com.ssafy.ssamuso.security.provider.NaverOAuthUserInfo;
 import com.ssafy.ssamuso.security.provider.OAuthUserInfo;
 import com.ssafy.ssamuso.security.user.OAuth2UserImpl;
-import lombok.NoArgsConstructor;
+import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
