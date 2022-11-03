@@ -3,15 +3,15 @@ package com.ssafy.ssamuso.users.dto;
 import com.ssafy.ssamuso.users.domain.Portfolios;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.users.domain.User;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @ToString
 public class UserMyPage {
     private Long id;
@@ -24,9 +24,6 @@ public class UserMyPage {
     private List<TechName> techstacks;
     private String portfolios;
 
-    private UserMyPage() {
-    }
-
     /**
      * 마이페이지용 DTO
      *
@@ -35,22 +32,22 @@ public class UserMyPage {
      * @return
      */
     public static UserMyPage createUserMyPage(User user, Portfolios portfolios) {
-        UserMyPage userMyPage = new UserMyPage();
-        userMyPage.setId(user.getId());
-        userMyPage.setUsername(user.getUsername());
-        userMyPage.setArea(user.getArea());
-        userMyPage.setTerm(user.getTerm());
-        userMyPage.setTrack(user.getTrack());
-        userMyPage.setClassNum(user.getClassNum());
-        userMyPage.setProfileImg(user.getProfileImg());
+        UserMyPage userMyPage = UserMyPage.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .area(user.getArea())
+                .term(user.getTerm())
+                .track(user.getTrack())
+                .classNum(user.getClassNum())
+                .profileImg(user.getProfileImg())
+                .portfolios(portfolios.getLink())
+                .build();
 
         userMyPage.setTechstacks(new ArrayList<>());
         if (user.getUserTechstacks() != null) {
             user.getUserTechstacks()
                     .forEach(userTechstack -> userMyPage.getTechstacks().add(userTechstack.getTechstack().getTechName()));
         }
-        userMyPage.setPortfolios(portfolios.getLink());
-
         return userMyPage;
     }
 

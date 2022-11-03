@@ -7,9 +7,11 @@ import com.ssafy.ssamuso.users.repository.PortfoliosRepository;
 import com.ssafy.ssamuso.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserMyPageService {
     private final UserRepository userRepository;
     private final PortfoliosRepository portfoliosRepository;
