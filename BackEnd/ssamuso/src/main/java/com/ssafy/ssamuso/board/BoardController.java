@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +37,11 @@ public class BoardController {
 
 
     @PostMapping
-    public ResponseEntity<?> wirteBoard(Board board) {
-
+    public ResponseEntity<?> wirteBoard(Board board, Authentication authentication) {
+        UserDetails userDetails = (UserDetails)authentication.getDetails();
         try {
             Board temp = boardService.insert(board);
+            if(temp.getUser().equals(userDetails));
             return new ResponseEntity<>(HttpStatus.MULTIPLE_CHOICES);
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,8 +62,9 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAll(@PathVariable Long id, Board board) {
+    public ResponseEntity<?> updateAll(@PathVariable Long id, Board board,Authentication authentication) {
 
+        UserDetails userDetails = (UserDetails)authentication.getDetails();
         try {
             Optional<Board> boardOptional = boardService.getBoard(id);
             board.setId(id);
@@ -83,9 +87,10 @@ public class BoardController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long id) {
+    public ResponseEntity<?> deleteBoard(@PathVariable Long id,Authentication authentication) {
 
         try {
+            UserDetails userDetails = (UserDetails)authentication.getDetails();
             boardService.deleteBoard(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
