@@ -1,7 +1,7 @@
 package com.ssafy.ssamuso.service;
 
-import com.ssafy.ssamuso.users.domain.User;
-import com.ssafy.ssamuso.users.repository.UserRepository;
+import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PrincipalOAuth2UserServiceTest {
+class PrincipalOAuth2UserServiceTestImlp {
 
     @Mock
     OAuth2UserRequest userRequest;

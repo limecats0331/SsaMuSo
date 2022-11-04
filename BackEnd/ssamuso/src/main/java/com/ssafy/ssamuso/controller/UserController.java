@@ -1,7 +1,7 @@
-package com.ssafy.ssamuso.users.controller;
+package com.ssafy.ssamuso.controller;
 
-import com.ssafy.ssamuso.users.dto.UserMyPage;
-import com.ssafy.ssamuso.users.service.UserMyPageService;
+import com.ssafy.ssamuso.domain.dto.UserMyPageDTO;
+import com.ssafy.ssamuso.service.UserMyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +17,9 @@ public class UserController {
     private final UserMyPageService userMyPageService;
 
     @GetMapping
-    public UserMyPage userMyPage(@AuthenticationPrincipal UserDetails userDetails) {
+    public UserMyPageDTO userMyPage(@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
-        UserMyPage myPageInfo = userMyPageService.findMyPageInfo(username);
+        UserMyPageDTO myPageInfo = userMyPageService.findMyPageInfo(username);
         return myPageInfo;
     }
 }

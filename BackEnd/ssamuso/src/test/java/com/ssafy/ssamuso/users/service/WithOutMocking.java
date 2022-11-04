@@ -1,7 +1,8 @@
 package com.ssafy.ssamuso.users.service;
 
 
-import com.ssafy.ssamuso.users.dto.UserMyPage;
+import com.ssafy.ssamuso.service.UserMyPageService;
+import com.ssafy.ssamuso.domain.dto.UserMyPageDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,7 @@ public class WithOutMocking {
     @Test
     void 데이터베이스_연결테스트() throws Exception {
         //When
-        UserMyPage info = userMyPageService.findMyPageInfo("kim");
+        UserMyPageDTO info = userMyPageService.findMyPageInfo("kim");
 
         //Then
         System.out.println("info = " + info);

@@ -1,7 +1,7 @@
 package com.ssafy.ssamuso.security.user;
 
 import com.ssafy.ssamuso.security.provider.OAuthUserInfo;
-import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

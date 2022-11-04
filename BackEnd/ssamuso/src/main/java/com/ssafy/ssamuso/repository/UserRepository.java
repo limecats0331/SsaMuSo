@@ -1,6 +1,6 @@
-package com.ssafy.ssamuso.users.repository;
+package com.ssafy.ssamuso.repository;
 
-import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

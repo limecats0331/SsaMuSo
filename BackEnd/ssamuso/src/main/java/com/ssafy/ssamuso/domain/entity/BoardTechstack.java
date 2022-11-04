@@ -1,6 +1,5 @@
 package com.ssafy.ssamuso.domain.entity;
 
-import com.ssafy.ssamuso.common.domain.Techstack;
 import lombok.*;
 
 import javax.persistence.*;

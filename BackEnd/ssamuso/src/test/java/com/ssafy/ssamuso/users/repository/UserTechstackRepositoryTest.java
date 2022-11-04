@@ -1,10 +1,13 @@
 package com.ssafy.ssamuso.users.repository;
 
-import com.ssafy.ssamuso.common.repository.TechstackRepository;
+import com.ssafy.ssamuso.repository.TechstackRepository;
+import com.ssafy.ssamuso.domain.entity.enumtype.Role;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
-import com.ssafy.ssamuso.common.domain.Techstack;
-import com.ssafy.ssamuso.users.domain.User;
-import com.ssafy.ssamuso.users.domain.UserTechstack;
+import com.ssafy.ssamuso.domain.entity.Techstack;
+import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.domain.entity.UserTechstack;
+import com.ssafy.ssamuso.repository.UserRepository;
+import com.ssafy.ssamuso.repository.UserTechstackRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -79,13 +82,16 @@ class UserTechstackRepositoryTest {
 
     User makeUser() {
         User user = User.builder()
-                .username("kim")
+                .username("userA")
                 .area("gumi")
                 .term(8)
                 .track("mobile")
                 .classNum(4)
                 .profileImg("src")
                 .password("password")
+                .email("test@email.com")
+                .role(Role.USER)
+                .name("test")
                 .build();
         return user;
     }

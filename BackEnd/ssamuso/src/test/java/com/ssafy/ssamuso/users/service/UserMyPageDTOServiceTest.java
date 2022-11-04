@@ -1,10 +1,11 @@
 package com.ssafy.ssamuso.users.service;
 
-import com.ssafy.ssamuso.users.domain.Portfolios;
-import com.ssafy.ssamuso.users.domain.User;
-import com.ssafy.ssamuso.users.dto.UserMyPage;
-import com.ssafy.ssamuso.users.repository.PortfoliosRepository;
-import com.ssafy.ssamuso.users.repository.UserRepository;
+import com.ssafy.ssamuso.service.UserMyPageService;
+import com.ssafy.ssamuso.domain.entity.Portfolios;
+import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.domain.dto.UserMyPageDTO;
+import com.ssafy.ssamuso.repository.PortfoliosRepository;
+import com.ssafy.ssamuso.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserMyPageServiceTest {
+class UserMyPageDTOServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -40,7 +41,7 @@ class UserMyPageServiceTest {
     @Test
     void getMyPage() throws Exception {
         //When
-        UserMyPage myPageInfo = userMyPageService.findMyPageInfo("userA");
+        UserMyPageDTO myPageInfo = userMyPageService.findMyPageInfo("userA");
 
         //Then
         assertThat(myPageInfo.getUsername()).isEqualTo("userA");

@@ -1,8 +1,8 @@
-package com.ssafy.ssamuso.users.dto;
+package com.ssafy.ssamuso.domain.dto;
 
-import com.ssafy.ssamuso.users.domain.Portfolios;
+import com.ssafy.ssamuso.domain.entity.Portfolios;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
-import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.domain.entity.User;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @ToString
-public class UserMyPage {
+public class UserMyPageDTO {
     private Long id;
     private String username;
     private String area;
@@ -31,8 +31,8 @@ public class UserMyPage {
      * @param portfolios userID로 검색한 결과
      * @return
      */
-    public static UserMyPage createUserMyPage(User user, Portfolios portfolios) {
-        UserMyPage userMyPage = UserMyPage.builder()
+    public static UserMyPageDTO createUserMyPage(User user, Portfolios portfolios) {
+        UserMyPageDTO userMyPageDTO = UserMyPageDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .area(user.getArea())
@@ -43,12 +43,12 @@ public class UserMyPage {
                 .portfolios(portfolios.getLink())
                 .build();
 
-        userMyPage.setTechstacks(new ArrayList<>());
+        userMyPageDTO.setTechstacks(new ArrayList<>());
         if (user.getUserTechstacks() != null) {
             user.getUserTechstacks()
-                    .forEach(userTechstack -> userMyPage.getTechstacks().add(userTechstack.getTechstack().getTechName()));
+                    .forEach(userTechstack -> userMyPageDTO.getTechstacks().add(userTechstack.getTechstack().getTechName()));
         }
-        return userMyPage;
+        return userMyPageDTO;
     }
 
 }

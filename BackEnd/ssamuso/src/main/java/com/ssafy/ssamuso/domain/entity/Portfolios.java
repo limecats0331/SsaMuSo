@@ -1,6 +1,5 @@
-package com.ssafy.ssamuso.users.domain;
+package com.ssafy.ssamuso.domain.entity;
 
-import com.ssafy.ssamuso.users.domain.User;
 import lombok.*;
 
 import javax.persistence.*;

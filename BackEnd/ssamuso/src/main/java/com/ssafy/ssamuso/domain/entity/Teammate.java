@@ -1,6 +1,5 @@
 package com.ssafy.ssamuso.domain.entity;
 
-import com.ssafy.ssamuso.users.domain.User;
 import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import lombok.*;
 

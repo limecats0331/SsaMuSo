@@ -1,6 +1,7 @@
 package com.ssafy.ssamuso.users.repository;
 
-import com.ssafy.ssamuso.users.domain.User;
+import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

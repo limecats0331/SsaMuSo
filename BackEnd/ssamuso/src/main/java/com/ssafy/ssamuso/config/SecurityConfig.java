@@ -1,4 +1,4 @@
-package com.ssafy.ssamuso.security.config;
+package com.ssafy.ssamuso.config;
 
 import com.ssafy.ssamuso.service.PrincipalOAuth2UserService;
 import lombok.RequiredArgsConstructor;

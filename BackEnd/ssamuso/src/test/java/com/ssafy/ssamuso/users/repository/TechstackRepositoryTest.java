@@ -1,8 +1,8 @@
 package com.ssafy.ssamuso.users.repository;
 
-import com.ssafy.ssamuso.common.repository.TechstackRepository;
+import com.ssafy.ssamuso.repository.TechstackRepository;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
-import com.ssafy.ssamuso.common.domain.Techstack;
+import com.ssafy.ssamuso.domain.entity.Techstack;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

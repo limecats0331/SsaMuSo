@@ -1,6 +1,6 @@
-package com.ssafy.ssamuso.common.repository;
+package com.ssafy.ssamuso.repository;
 
-import com.ssafy.ssamuso.common.domain.Techstack;
+import com.ssafy.ssamuso.domain.entity.Techstack;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
