@@ -76,7 +76,7 @@ public class BoardController {
         if (tempBoard.getUser().getId()!=user.get().getId()) {
             throw new Exception("not your board");
         }
-        tempBoard=Board.convert(tempBoard,boardDto);
+        tempBoard=Board.revise(tempBoard,boardDto);
         boardService.insert(tempBoard);
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");

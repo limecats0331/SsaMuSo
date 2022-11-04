@@ -2,10 +2,7 @@ package com.ssafy.ssamuso.board.boardDto;
 
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,9 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class BoardDto {
 
     private Long id;
@@ -51,6 +46,7 @@ public class BoardDto {
         this.username = board.getUsername();
         this.deadline = board.getDeadline();
         this.state =board.getState();
+
     }
 
 

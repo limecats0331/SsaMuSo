@@ -95,7 +95,7 @@ public class Board implements Serializable {
         this.state =boardDto.getState();
     }
 
-    public static Board convert(Board board, BoardDto boardDto){
+    public static Board revise(Board board, BoardDto boardDto){
 
         board.setId(boardDto.getId());
         board.setTitle(boardDto.getTitle());
