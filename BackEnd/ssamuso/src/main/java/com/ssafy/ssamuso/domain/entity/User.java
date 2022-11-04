@@ -21,12 +21,18 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    /**
+     * {username}@gmail.com or {username}@naver.com
+     */
+    @Column(length = 120, nullable = false)
     private String username;
 
     @Column(length = 50, nullable = false)
     private String email;
 
+    /**
+     * 실명
+     */
     @Column(length = 20, nullable = false)
     private String name;
 

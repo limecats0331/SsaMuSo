@@ -57,8 +57,11 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * 실명
+     */
     @Column(length = 20, nullable = false)
-    private String username;
+    private String name;
 
     @Column(nullable = false)
     private LocalDate deadline;
