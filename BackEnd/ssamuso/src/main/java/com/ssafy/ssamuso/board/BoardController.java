@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.board;
 
+import com.ssafy.ssamuso.board.boardDto.BoardDto;
 import com.ssafy.ssamuso.board.users.TempUserService;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.User;
@@ -33,17 +34,18 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<?> getList(Pageable pageable) throws Exception {
 
-        Page<Board> boardList = boardService.getList(pageable);
+        Page<BoardDto> boardList = boardService.getList(pageable);
         return new ResponseEntity<>(boardList, HttpStatus.OK);
 
     }
 
-
+    //입력에 List<MultipartFile>를 가지는 DTO 구현한 다음 받아서 처리할 것
     @PostMapping
-    public ResponseEntity<?> wirteBoard(Board board, @AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<?> wirteBoard(BoardDto boardDto, @AuthenticationPrincipal UserDetails userDetails,
                                         @RequestParam("images") List<MultipartFile> multipartFiles) throws Exception {
         String username = userDetails.getUsername();
         Optional<User> user = tempUserService.findByUsername(username);
+        Board board = new Board(boardDto);
         board.setUser(user.get());
         board = boardService.insert(board);
 
@@ -60,12 +62,12 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) throws Exception {
 
-        Board board = boardService.getBoard(id);
-        return new ResponseEntity<>(board, HttpStatus.OK);
+        BoardDto boardDto = new BoardDto(boardService.getBoard(id));
+        return new ResponseEntity<>(boardDto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAll(@PathVariable Long id,@RequestBody Board board,
+    public ResponseEntity<?> updateAll(@PathVariable Long id,@RequestBody BoardDto boardDto,
                                        @AuthenticationPrincipal UserDetails userDetails) throws Exception {
         Board tempBoard = boardService.getBoard(id);
         String username = userDetails.getUsername();
@@ -74,7 +76,7 @@ public class BoardController {
         if (tempBoard.getUser().getId()!=user.get().getId()) {
             throw new Exception("not your board");
         }
-        tempBoard=board;
+        tempBoard=Board.convert(tempBoard,boardDto);
         boardService.insert(tempBoard);
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");

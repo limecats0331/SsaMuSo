@@ -25,15 +25,19 @@ public class FileServiceImpl implements FileService {
         System.out.println(multipartFile.getOriginalFilename());
         System.out.println(multipartFile.getContentType());
         System.out.println(multipartFile.getName());
+
         String newFileName = "files/" + getDateToString() + "-" + UUID.randomUUID() ;
+        String result = s3Service.upload(multipartFile, newFileName);
+
         File file = File.builder()
                 .originalName(multipartFile.getOriginalFilename())
                 .changedName(newFileName+multipartFile.getOriginalFilename())
                 .board(Board.builder().id(brdId).build())
+                .url(result)
                 .build();
         System.out.println(file);
         fileRepository.save(file);
-        return s3Service.upload(multipartFile, newFileName);
+        return result;
     }
 
 

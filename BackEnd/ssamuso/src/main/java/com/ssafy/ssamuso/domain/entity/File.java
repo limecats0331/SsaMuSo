@@ -23,6 +23,9 @@ public class File {
     @Column(length = 300, nullable = false)
     private String changedName;
 
+    @Column(length = 300, nullable = false)
+    private String url;
+
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;

@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.board;
 
+import com.ssafy.ssamuso.board.boardDto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardDelete;
 import com.ssafy.ssamuso.domain.entity.User;
@@ -22,8 +23,9 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
-    public Page<Board> getList(Pageable pageable) {
-        return boardRepository.findAll(pageable);
+    public Page<BoardDto> getList(Pageable pageable) {
+
+        return Board.convert(boardRepository.findAll(pageable));
     }
 
     @Override
