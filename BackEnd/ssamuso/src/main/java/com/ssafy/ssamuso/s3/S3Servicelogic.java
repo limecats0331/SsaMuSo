@@ -2,6 +2,7 @@ package com.ssafy.ssamuso.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -52,6 +53,16 @@ public class S3Servicelogic implements S3Service {
         } else {
             throw new Exception("파일 확장자 에러");
         }
+    }
+
+    @Override
+    public String delete(String fileName) throws Exception {
+        DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, fileName);
+        //Delete
+        amazonS3Client.deleteObject(deleteObjectRequest);
+//        System.out.println(String.format("[%s] deletion complete", fileName));
+
+        return null;
     }
 
     // S3로 파일 업로드하기
