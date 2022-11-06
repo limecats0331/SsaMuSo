@@ -42,7 +42,7 @@ public class FileController {
 
     }
 
-    @GetMapping("/file/{brdid}")
+    @GetMapping("/files/{brdid}")
     public ResponseEntity<?> findByBrdId(@PathVariable long brdId) {
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -61,4 +61,15 @@ public class FileController {
         }
 
     }
+
+    @DeleteMapping("/files/{brdId}")
+    public  ResponseEntity<?> deleteFile(@PathVariable Long brdId) throws Exception {
+
+        fileService.delete(brdId);
+        Map<String,Object> result = new HashMap<>();
+        result.put("msg","OK");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+
+    }
+
 }

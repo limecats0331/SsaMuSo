@@ -12,6 +12,6 @@ public interface FileService {
 
     ArrayList<File> findByBoardId(long brdId);
 
-    String delete(Long brdId);
+    String delete(Long brdId) throws Exception;
 
 }
