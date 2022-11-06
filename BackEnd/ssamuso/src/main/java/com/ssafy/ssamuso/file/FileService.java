@@ -14,4 +14,6 @@ public interface FileService {
 
     String delete(Long brdId) throws Exception;
 
+    ArrayList<String> findUrlByBoardId(Long brdId);
+
 }

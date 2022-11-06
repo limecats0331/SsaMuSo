@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,14 +14,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class S3Servicelogic implements S3Service {
     private final AmazonS3Client amazonS3Client;
+    private static final Tika tika = new Tika();
     @Value("${cloud.aws.s3.bucket}")
     public String bucket; // S3 버킷 이름
 
@@ -28,8 +33,7 @@ public class S3Servicelogic implements S3Service {
     public String upload(MultipartFile multipartFile, String changedFileName) throws Exception {
 
         String fileName = multipartFile.getOriginalFilename().toLowerCase();
-        if (fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".pdf") || fileName.endsWith(".jpg")
-                || fileName.endsWith(".gif") || fileName.endsWith(".webp")) {
+        if (validImgFile(multipartFile.getInputStream())) {
             File uploadFile = convert(multipartFile);
             return upload(uploadFile, changedFileName);
         } else {
@@ -111,6 +115,23 @@ public class S3Servicelogic implements S3Service {
         Date now = new Date();
         return format.format(now);
     }
+
+    public static boolean validImgFile(InputStream inputStream) {
+        try {
+            List<String> notValidTypeList = Arrays.asList("image/jpeg", "image/pjpeg", "image/png", "image/gif", "image/bmp", "image/x-windows-bmp");
+
+            String mimeType = tika.detect(inputStream);
+            System.out.println("MimeType : " + mimeType);
+
+            boolean isValid = notValidTypeList.stream().anyMatch(notValidType -> notValidType.equalsIgnoreCase(mimeType));
+
+            return isValid;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 
 }

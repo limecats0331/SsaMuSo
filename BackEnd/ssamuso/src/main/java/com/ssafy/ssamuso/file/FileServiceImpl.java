@@ -22,18 +22,20 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String fileUpload(Long brdId, MultipartFile multipartFile) throws Exception {
-        System.out.println(multipartFile.getOriginalFilename());
-        System.out.println(multipartFile.getContentType());
-        System.out.println(multipartFile.getName());
-        String newFileName = "files/" + getDateToString() + "-" + UUID.randomUUID() ;
+//        System.out.println(multipartFile.getOriginalFilename());
+//        System.out.println(multipartFile.getContentType());
+//        System.out.println(multipartFile.getName());
+        String newFileName = "files/" + getDateToString() + "-" + UUID.randomUUID();
+        String url = s3Service.upload(multipartFile, newFileName);
         File file = File.builder()
                 .originalName(multipartFile.getOriginalFilename())
-                .changedName(newFileName+multipartFile.getOriginalFilename())
+                .changedName(newFileName + multipartFile.getOriginalFilename())
+                .url(url)
                 .board(Board.builder().id(brdId).build())
                 .build();
-        System.out.println(file);
+//        System.out.println(file);
         fileRepository.save(file);
-        return s3Service.upload(multipartFile, newFileName);
+        return url;
     }
 
 
@@ -46,6 +48,16 @@ public class FileServiceImpl implements FileService {
     public String delete(Long brdId) {
         return null;
 
+    }
+
+    @Override
+    public ArrayList<String> findUrlByBoardId(Long brdId) {
+        ArrayList<File> files = findByBoardId(brdId);
+        ArrayList<String> result = new ArrayList<>();
+        for (File file : files) {
+            result.add(file.getUrl());
+        }
+        return result;
     }
 
     private String getDateToString() {
