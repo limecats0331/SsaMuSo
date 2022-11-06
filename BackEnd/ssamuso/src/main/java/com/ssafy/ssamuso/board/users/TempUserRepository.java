@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 public interface TempUserRepository extends JpaRepository<User,Long> {
 
-    @Query(value = "select n.id from User n where n.username = :username")
     Optional<User> findByUsername(String username);
 
 }

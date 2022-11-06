@@ -20,7 +20,7 @@ public class BoardDeleteRepositoryTest {
     @Autowired
     BoardDeleteRepository boardDeleteRepository;
 
-    @Test
+//    @Test
     void save() throws Exception    {
 
         BoardDelete boardDelete = BoardDelete.builder()

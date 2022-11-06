@@ -20,7 +20,7 @@ public class BoardRepositoryTest {
     @Autowired
     BoardRepository boardRepository;
 
-    @Test
+//    @Test
     void save() throws Exception    {
 
         Board baord = Board.builder()
@@ -30,7 +30,7 @@ public class BoardRepositoryTest {
                 .feMax(3)
                 .beMax(2)
                 .embMax(0)
-                .username("testuser")
+                .name("testuser")
                 .build();
 
 

@@ -28,7 +28,7 @@ public class BoardDelete {
        this.feNow = board.getFeNow();
        this.appNow =board.getAppNow();
        this.embNow = board.getEmbNow();
-       this.username = board.getUsername();
+       this.username = board.getName();
        this.deadline = board.getDeadline();
        this.state = board.getState();
     }

@@ -45,9 +45,13 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String delete(Long brdId) {
-        return null;
-
+    public String delete(Long brdId) throws Exception {
+        ArrayList<File> files = findByBoardId(brdId);
+        for (File file:files) {
+            s3Service.delete(file.getChangedName());
+            fileRepository.delete(file);
+        }
+        return "OK";
     }
 
     @Override

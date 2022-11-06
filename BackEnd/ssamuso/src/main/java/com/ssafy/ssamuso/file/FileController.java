@@ -27,7 +27,6 @@ public class FileController {
         Map<String, Object> result = new HashMap<String, Object>();
         String temp = null;
         try {
-            ArrayList<String> img_ids = new ArrayList<>();
             for (MultipartFile multipartFile : multipartFiles) {
 
                 fileService.fileUpload(brdId, multipartFile);
