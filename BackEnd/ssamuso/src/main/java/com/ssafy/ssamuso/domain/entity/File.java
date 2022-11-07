@@ -26,7 +26,6 @@ public class File {
     @Column(length = 300, nullable = false)
     private String url;
 
-    @ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
