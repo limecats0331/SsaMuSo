@@ -1,9 +1,11 @@
 package com.ssafy.ssamuso.domain.entity;
 
-import com.ssafy.ssamuso.domain.entity.enumtype.Role;
+import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import lombok.*;
 
 import javax.persistence.*;
+
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
@@ -18,17 +20,17 @@ public class Teammate {
     @Column(name = "teammate_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private TeamRole role;
 
     private Integer state;
 }

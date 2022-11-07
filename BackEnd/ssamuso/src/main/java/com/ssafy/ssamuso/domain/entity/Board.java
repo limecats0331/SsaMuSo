@@ -62,6 +62,9 @@ public class Board implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * 실명
+     */
     @Column(length = 20, nullable = false)
     private String name;
 
