@@ -20,11 +20,8 @@ public class File {
     @Column(length = 300, nullable = false)
     private String originalName;
 
-    @Column(length = 300, nullable = false)
+    @Column(length = 45, nullable = false)
     private String changedName;
-
-    @Column(length = 300, nullable = false)
-    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
