@@ -15,4 +15,8 @@ public class UserServiceImlp {
     Optional<User> findById(Long userId) {
         return userRepository.findById(userId);
     }
+
+    public Optional<User> findByUsername(String name){
+        return userRepository.findByUsername(name);
+    }
 }
