@@ -56,12 +56,12 @@ public class TestUtil {
         return Optional.of(List.of(userTechstack1, userTechstack2));
     }
 
-    static public TeammateInfoDTO makeTeammateInfoDTO() {
+    static public Optional<TeammateInfoDTO> makeTeammateInfoDTO() {
         TeammateInfoDTO teammateInfoDTO = new TeammateInfoDTO();
         teammateInfoDTO.setUsername("userA");
         teammateInfoDTO.setPortfoliosLink("link");
         teammateInfoDTO.setTechstacks(List.of(TechName.Spring, TechName.React));
 
-        return teammateInfoDTO;
+        return Optional.of(teammateInfoDTO);
     }
 }
