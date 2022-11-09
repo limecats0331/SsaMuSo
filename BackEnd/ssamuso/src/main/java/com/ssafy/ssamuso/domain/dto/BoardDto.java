@@ -2,6 +2,7 @@ package com.ssafy.ssamuso.domain.dto;
 
 import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
 import com.ssafy.ssamuso.domain.entity.Board;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class BoardDto {
 
     private Long id;
