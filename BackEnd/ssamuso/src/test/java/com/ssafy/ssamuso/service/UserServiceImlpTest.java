@@ -9,8 +9,6 @@ import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.repository.PortfoliosRepository;
 import com.ssafy.ssamuso.repository.UserRepository;
 import com.ssafy.ssamuso.repository.UserTechstackRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
