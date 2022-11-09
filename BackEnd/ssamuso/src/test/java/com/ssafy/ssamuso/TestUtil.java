@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso;
 
+import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.entity.Portfolios;
 import com.ssafy.ssamuso.domain.entity.Techstack;
 import com.ssafy.ssamuso.domain.entity.User;
@@ -53,5 +54,14 @@ public class TestUtil {
         userTechstack2.setTechstack(techstack2);
 
         return Optional.of(List.of(userTechstack1, userTechstack2));
+    }
+
+    static public TeammateInfoDTO makeTeammateInfoDTO() {
+        TeammateInfoDTO teammateInfoDTO = new TeammateInfoDTO();
+        teammateInfoDTO.setUsername("userA");
+        teammateInfoDTO.setPortfoliosLink("link");
+        teammateInfoDTO.setTechstacks(List.of(TechName.Spring, TechName.React));
+
+        return teammateInfoDTO;
     }
 }
