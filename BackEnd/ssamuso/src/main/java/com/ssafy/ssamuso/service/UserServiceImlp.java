@@ -31,7 +31,7 @@ public class UserServiceImlp {
     public Optional<TeammateInfoDTO> findTeammateByUsername(String username) {
         Optional<User> findUser = userRepository.findByUsername(username);
         if (findUser.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
         Optional<Portfolios> findPortfolios = portfoliosRepository.findByUser(findUser.get());
