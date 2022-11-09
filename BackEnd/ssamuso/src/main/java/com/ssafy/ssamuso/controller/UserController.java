@@ -32,9 +32,10 @@ public class UserController {
     @GetMapping("/{username}")
     public TeammateInfoDTO simpleInfo(@PathVariable String username) throws IllegalArgumentException {
         Optional<TeammateInfoDTO> teammateByUsername = userServiceImlp.findTeammateByUsername(username);
-        if (teammateByUsername.isEmpty()) {
-            throw new IllegalArgumentException("없는 유저");
-        }
+
+        teammateByUsername
+                .orElseThrow(()->new IllegalArgumentException("없는 유저"));
+
         return teammateByUsername.get();
     }
 }
