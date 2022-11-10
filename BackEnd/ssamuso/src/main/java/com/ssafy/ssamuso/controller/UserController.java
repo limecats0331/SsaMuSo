@@ -1,7 +1,12 @@
 package com.ssafy.ssamuso.controller;
 
+import com.ssafy.ssamuso.domain.dto.MyTeamDTO;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.dto.UserMyPageDTO;
+import com.ssafy.ssamuso.domain.entity.Teammate;
+import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.service.BoardServiceImpl;
+import com.ssafy.ssamuso.service.TeamServiceImpl;
 import com.ssafy.ssamuso.service.UserMyPageService;
 import com.ssafy.ssamuso.service.UserServiceImlp;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +28,9 @@ public class UserController {
 
     private final UserMyPageService userMyPageService;
     private final UserServiceImlp userServiceImlp;
+
+    private final BoardServiceImpl boardService;
+    private final TeamServiceImpl teamService;
 
     @GetMapping
     public UserMyPageDTO userMyPage(@AuthenticationPrincipal UserDetails userDetails) {
@@ -34,8 +44,26 @@ public class UserController {
         Optional<TeammateInfoDTO> teammateByUsername = userServiceImlp.findTeammateByUsername(username);
 
         teammateByUsername
-                .orElseThrow(()->new IllegalArgumentException("없는 유저"));
+                .orElseThrow(() -> new IllegalArgumentException("없는 유저"));
 
         return teammateByUsername.get();
+    }
+
+    @GetMapping("{username}")
+    public List<MyTeamDTO> getMyTeam(@PathVariable String username) {
+        List<Teammate> myTeams = teamService.findTeammateByUsername(username);
+
+        List<MyTeamDTO> result = new ArrayList<>();
+        for (Teammate myTeam : myTeams) {
+            result.add(MyTeamDTO.builder()
+                    .username(username)
+                    .boardId(myTeam.getBoard().getId())
+                    .boardTitle(myTeam.getBoard().getTitle())
+                    .state(myTeam.getState())
+                    .role(myTeam.getRole())
+                    .build());
+        }
+
+        return result;
     }
 }
