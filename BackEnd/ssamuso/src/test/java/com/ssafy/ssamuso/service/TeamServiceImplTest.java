@@ -46,11 +46,32 @@ class TeamServiceImplTest {
 
         //When
         TeamServiceImpl teamService = new TeamServiceImpl(userRepository, boardRepository, teammateRepository);
-        List<Teammate> result = teamService.findTeamByUsername("userA");
+        List<Teammate> result = teamService.findTeammateByUsername("userA");
 
         //Then
         assertThat(result.size()).isEqualTo(1);
         assertThat(result).isEqualTo(List.of(teammate.get()));
     }
 
+    @Test
+    @DisplayName("보드 아이디로 검색")
+    void findByBoardId() throws Exception {
+        //Given
+        Optional<User> user = TestUtil.makeUser();
+//        doReturn(user).when(userRepository).findByUsername("userA");
+
+        Optional<Board> board = TestUtil.makeBoard(user.get(), 1L, "test");
+        doReturn(board).when(boardRepository).findById(1L);
+
+        Optional<Teammate> teammate = TestUtil.makeTeammate(board.get(), user.get(), TeamRole.BackEnd);
+        doReturn(List.of(teammate.get())).when(teammateRepository).findAllByUser(user.get());
+
+        //When
+        TeamServiceImpl teamService = new TeamServiceImpl(userRepository, boardRepository, teammateRepository);
+        List<Teammate> result = teamService.findTeammateByBoardId(1L);
+
+        //Then
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).isEqualTo(List.of(teammate.get()));
+    }
 }

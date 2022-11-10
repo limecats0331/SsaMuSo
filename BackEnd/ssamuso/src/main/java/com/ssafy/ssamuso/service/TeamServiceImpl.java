@@ -21,7 +21,7 @@ public class TeamServiceImpl implements TeamService {
     private final TeammateRepository teammateRepository;
 
     @Override
-    public List<Teammate> findTeamByUsername(String username) throws IllegalArgumentException {
+    public List<Teammate> findTeammateByUsername(String username) throws IllegalArgumentException {
         Optional<User> user = userRepository.findByUsername(username);
 
         user.orElseThrow(() -> new IllegalArgumentException("No user"));
@@ -30,7 +30,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Teammate> findTeamByBoardId(Long boardId) throws IllegalArgumentException {
+    public List<Teammate> findTeammateByBoardId(Long boardId) throws IllegalArgumentException {
         Optional<Board> board = boardRepository.findById(boardId);
 
         board.orElseThrow(() -> new IllegalArgumentException("No Board"));

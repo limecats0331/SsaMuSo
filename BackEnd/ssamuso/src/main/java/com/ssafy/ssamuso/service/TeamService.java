@@ -5,7 +5,7 @@ import com.ssafy.ssamuso.domain.entity.Teammate;
 import java.util.List;
 
 public interface TeamService {
-    List<Teammate> findTeamByUsername(String username);
+    List<Teammate> findTeammateByUsername(String username);
 
-    List<Teammate> findTeamByBoardId(Long boardId);
+    List<Teammate> findTeammateByBoardId(Long boardId);
 }
