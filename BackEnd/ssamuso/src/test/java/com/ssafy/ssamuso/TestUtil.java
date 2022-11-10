@@ -1,10 +1,8 @@
 package com.ssafy.ssamuso;
 
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
-import com.ssafy.ssamuso.domain.entity.Portfolios;
-import com.ssafy.ssamuso.domain.entity.Techstack;
-import com.ssafy.ssamuso.domain.entity.User;
-import com.ssafy.ssamuso.domain.entity.UserTechstack;
+import com.ssafy.ssamuso.domain.entity.*;
+import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 
 import java.util.ArrayList;
@@ -64,4 +62,15 @@ public class TestUtil {
 
         return Optional.of(teammateInfoDTO);
     }
+
+    static public Optional<Teammate> makeTeammate(Board board, User user, TeamRole teamRole) {
+        Teammate teammate = new Teammate();
+        teammate.setId(1L);
+        teammate.setBoard(board);
+        teammate.setUser(user);
+        teammate.setState(0);
+        teammate.setRole(teamRole);
+        return Optional.of(teammate);
+    }
+
 }
