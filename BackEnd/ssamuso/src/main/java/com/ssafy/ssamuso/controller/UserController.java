@@ -49,7 +49,7 @@ public class UserController {
         return teammateByUsername.get();
     }
 
-    @GetMapping("{username}")
+    @GetMapping("{username}/teams")
     public List<MyTeamDTO> getMyTeam(@PathVariable String username) {
         List<Teammate> myTeams = teamService.findTeammateByUsername(username);
 
