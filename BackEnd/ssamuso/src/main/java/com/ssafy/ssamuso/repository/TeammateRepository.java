@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.repository;
 
+import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.Teammate;
 import com.ssafy.ssamuso.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,5 @@ public interface TeammateRepository extends JpaRepository<Teammate, Long> {
 
     public List<Teammate> findAllByUser(User user);
 
-    public List<User> findAllByBoard_Id(Long boardId);
+    public List<Teammate> findAllByBoard(Board board);
 }
