@@ -23,7 +23,7 @@ class UserControllerTest {
         //Given
         Optional<TeammateInfoDTO> teammateInfoDTO = TestUtil.makeTeammateInfoDTO();
         doReturn(teammateInfoDTO).when(userServiceImlp).findTeammateByUsername("userA");
-        UserController userController = new UserController(null, userServiceImlp);
+        UserController userController = new UserController(null, userServiceImlp, null, null);
 
         TeammateInfoDTO resultInfo = TestUtil.makeTeammateInfoDTO().get();
         //When
@@ -38,7 +38,7 @@ class UserControllerTest {
     void 없는_유저_검색할때() throws Exception {
         //Given
         doReturn(Optional.empty()).when(userServiceImlp).findTeammateByUsername("userB");
-        UserController userController = new UserController(null, userServiceImlp);
+        UserController userController = new UserController(null, userServiceImlp, null, null);
 
         //When
         assertThatThrownBy(() -> userController.simpleInfo("userB"))
