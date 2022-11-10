@@ -58,13 +58,12 @@ class TeamServiceImplTest {
     void findByBoardId() throws Exception {
         //Given
         Optional<User> user = TestUtil.makeUser();
-//        doReturn(user).when(userRepository).findByUsername("userA");
 
         Optional<Board> board = TestUtil.makeBoard(user.get(), 1L, "test");
         doReturn(board).when(boardRepository).findById(1L);
 
         Optional<Teammate> teammate = TestUtil.makeTeammate(board.get(), user.get(), TeamRole.BackEnd);
-        doReturn(List.of(teammate.get())).when(teammateRepository).findAllByUser(user.get());
+        doReturn(List.of(teammate.get())).when(teammateRepository).findAllByBoard(board.get());
 
         //When
         TeamServiceImpl teamService = new TeamServiceImpl(userRepository, boardRepository, teammateRepository);
