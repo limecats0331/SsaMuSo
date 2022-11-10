@@ -1,0 +1,3 @@
+[submodule "SsaMuSoConfig"]
+	path = SsaMuSoConfig
+	url = git@github.com:limecats0331/SsaMuSoConfig.git
