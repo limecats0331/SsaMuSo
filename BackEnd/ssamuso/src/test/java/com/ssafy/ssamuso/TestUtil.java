@@ -2,6 +2,7 @@ package com.ssafy.ssamuso;
 
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.entity.*;
+import com.ssafy.ssamuso.domain.entity.enumtype.Role;
 import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 
@@ -21,12 +22,15 @@ public class TestUtil {
         return Optional.of(User.builder()
                 .id(10L)
                 .username("userA")
+                .name("Mr.kim")
                 .classNum(4)
                 .profileImg("src")
                 .password("pass")
                 .track("mobile")
                 .term(8)
                 .area("gumi")
+                .email("email test")
+                .role(Role.USER)
                 .build()
         );
     }
@@ -73,10 +77,10 @@ public class TestUtil {
         return Optional.of(teammate);
     }
 
-    static public Optional<Board> makeBoard(User user) {
+    static public Optional<Board> makeBoard(User user, Long id, String title) {
         return Optional.of(Board.builder()
-                .id(1L)
-                .title("title")
+                .id(id)
+                .title(title)
                 .content("content")
                 .name(user.getUsername())
                 .state(0)
