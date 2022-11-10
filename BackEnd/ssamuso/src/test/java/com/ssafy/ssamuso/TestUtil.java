@@ -1,13 +1,12 @@
 package com.ssafy.ssamuso;
 
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
-import com.ssafy.ssamuso.domain.entity.Portfolios;
-import com.ssafy.ssamuso.domain.entity.Techstack;
-import com.ssafy.ssamuso.domain.entity.User;
-import com.ssafy.ssamuso.domain.entity.UserTechstack;
+import com.ssafy.ssamuso.domain.entity.*;
+import com.ssafy.ssamuso.domain.entity.enumtype.Role;
+import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +22,15 @@ public class TestUtil {
         return Optional.of(User.builder()
                 .id(10L)
                 .username("userA")
+                .name("Mr.kim")
                 .classNum(4)
                 .profileImg("src")
                 .password("pass")
                 .track("mobile")
                 .term(8)
                 .area("gumi")
+                .email("email test")
+                .role(Role.USER)
                 .build()
         );
     }
@@ -64,4 +66,35 @@ public class TestUtil {
 
         return Optional.of(teammateInfoDTO);
     }
+
+    static public Optional<Teammate> makeTeammate(Board board, User user, TeamRole teamRole) {
+        Teammate teammate = new Teammate();
+        teammate.setBoard(board);
+        teammate.setUser(user);
+        teammate.setState(0);
+        teammate.setRole(teamRole);
+        return Optional.of(teammate);
+    }
+
+    static public Optional<Board> makeBoard(User user, Long id, String title) {
+        return Optional.of(Board.builder()
+                .id(id)
+                .title(title)
+                .content("content")
+                .name(user.getUsername())
+                .state(0)
+                .beMax(3)
+                .beNow(2)
+                .feMax(3)
+                .feNow(1)
+                .embMax(3)
+                .embNow(0)
+                .appMax(3)
+                .appNow(3)
+                .uploadDate(LocalDate.now())
+                .deadline(LocalDate.now().plusMonths(1))
+                .user(user)
+                .build());
+    }
+
 }
