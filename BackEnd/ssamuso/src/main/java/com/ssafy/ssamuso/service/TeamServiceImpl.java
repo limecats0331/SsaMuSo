@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.service;
 
+import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.Teammate;
 import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.repository.BoardRepository;
@@ -29,7 +30,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Teammate> findTeamByBoardId(Long boardId) {
-        return null;
+    public List<Teammate> findTeamByBoardId(Long boardId) throws IllegalArgumentException {
+        Optional<Board> board = boardRepository.findById(boardId);
+
+        board.orElseThrow(() -> new IllegalArgumentException("No Board"));
+
+        return teammateRepository.findAllByBoard(board.get());
     }
 }
