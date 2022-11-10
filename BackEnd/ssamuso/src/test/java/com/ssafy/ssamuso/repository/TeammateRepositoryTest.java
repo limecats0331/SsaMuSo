@@ -5,7 +5,6 @@ import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.Teammate;
 import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +53,33 @@ class TeammateRepositoryTest {
         for (Teammate teammate : findResult) {
             assertThat(teammate).isIn(List.of(teammate1.get(),teammate2.get()));
         }
+    }
+
+    @Test
+    @DisplayName("보드 아이디로 검색")
+    void findByBoardId() throws Exception {
+        //Given
+        Optional<User> user = TestUtil.makeUser();
+        user.get().setId(null);
+        userRepository.save(user.get());
+
+        Optional<Board> board1 = TestUtil.makeBoard(user.get(), 1L, "title");
+        board1.get().setId(null);
+        Optional<Board> board2 = TestUtil.makeBoard(user.get(), 2L, "title2");
+        board2.get().setId(null);
+        boardRepository.save(board1.get());
+        boardRepository.save(board2.get());
+
+        Optional<Teammate> teammate1 = TestUtil.makeTeammate(board1.get(), user.get(), TeamRole.BackEnd);
+        Optional<Teammate> teammate2 = TestUtil.makeTeammate(board2.get(), user.get(), TeamRole.FrontEnd);
+        teammateRepository.save(teammate1.get());
+        teammateRepository.save(teammate2.get());
+
+        //When
+        List<Teammate> findResult = teammateRepository.findAllByBoard(board1.get());
+
+        //Then
+        assertThat(findResult.size()).isEqualTo(1);
+        assertThat(findResult).isEqualTo(List.of(teammate1.get()));
     }
 }
