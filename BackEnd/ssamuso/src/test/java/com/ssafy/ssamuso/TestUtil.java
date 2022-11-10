@@ -69,7 +69,6 @@ public class TestUtil {
 
     static public Optional<Teammate> makeTeammate(Board board, User user, TeamRole teamRole) {
         Teammate teammate = new Teammate();
-        teammate.setId(1L);
         teammate.setBoard(board);
         teammate.setUser(user);
         teammate.setState(0);
