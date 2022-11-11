@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mariadb://limecats.synology.me:3307/SsaMuSo
+    url: jdbc:mariadb://localhost:3306/SsaMuSo
+    #url: jdbc:mariadb://limecats.synology.me:3307/SsaMuSo
     username: ssafy
     password: ssafy
     driver-class-name: org.mariadb.jdbc.Driver
