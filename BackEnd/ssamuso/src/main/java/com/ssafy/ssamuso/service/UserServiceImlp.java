@@ -56,14 +56,18 @@ public class UserServiceImlp {
         return Optional.of(teammateInfoDTO);
     }
 
-    private void deleteUser(User user) {
-        UserDelete userDelete = makeDeleteUser(user);
+    private void deleteUser(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        user.orElseThrow(() -> new IllegalArgumentException("No User"));
+
+        UserDelete userDelete = makeDeleteUser(user.get());
+
         userDeleteRepository.save(userDelete);
-        userRepository.deleteById(user.getId());
+        userRepository.deleteById(user.get().getId());
     }
 
     private UserDelete makeDeleteUser(User user) {
-         return UserDelete.builder()
+        return UserDelete.builder()
                 .id(user.getId())
                 .area(user.getArea())
                 .track(user.getTrack())
