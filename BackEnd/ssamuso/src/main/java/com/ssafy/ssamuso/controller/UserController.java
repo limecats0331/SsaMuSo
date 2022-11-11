@@ -12,10 +12,7 @@ import com.ssafy.ssamuso.service.UserServiceImlp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +62,12 @@ public class UserController {
         }
 
         return result;
+    }
+
+    @DeleteMapping
+    public String deleteUser(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        userServiceImlp.deleteUser(username);
+        return "ok";
     }
 }

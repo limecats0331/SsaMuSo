@@ -56,7 +56,7 @@ public class UserServiceImlp {
         return Optional.of(teammateInfoDTO);
     }
 
-    private void deleteUser(String username) {
+    public void deleteUser(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         user.orElseThrow(() -> new IllegalArgumentException("No User"));
 
