@@ -58,6 +58,29 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+
+task copyPrivate(type: Copy) {
+	copy {
+		from '../../SsaMuSoConfig/main'
+		include "*.yml"
+		into 'src/main/resources'
+	}
+
+	copy {
+		from '../../SsaMuSoConfig/test'
+		include "*.yml"
+		into 'src/test/resources'
+	}
+}
+
+//task copyPrivate(type: Copy) {
+//	copy {
+//		from '../../SsaMuSoConfig/test'
+//		include "*.yml"
+//		into 'src/test/resources'
+//	}
+//}
+
 //querydsl 추가 시작
 /*
 Q파일이 만들어질 경로, Q파일은 엔티티가 수정되면 새로 생성해야 하기 때문에 git으로 관리하면 안된다.
