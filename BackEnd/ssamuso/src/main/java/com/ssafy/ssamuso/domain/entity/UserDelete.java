@@ -1,11 +1,11 @@
 package com.ssafy.ssamuso.domain.entity;
 
+import com.ssafy.ssamuso.domain.entity.enumtype.Role;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,8 +20,20 @@ public class UserDelete {
     @Column(name = "user_delete_id")
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    /**
+     * {username}@gmail.com or {username}@naver.com
+     */
+    @Column(length = 120, nullable = false)
     private String username;
+
+    @Column(length = 50, nullable = false)
+    private String email;
+
+    /**
+     * 실명
+     */
+    @Column(length = 20, nullable = false)
+    private String name;
 
     @Column(length = 10, nullable = false)
     private String area;
@@ -40,4 +52,11 @@ public class UserDelete {
 
     @Column(length = 100, nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserTechstack> userTechstacks;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    private Role role;
 }

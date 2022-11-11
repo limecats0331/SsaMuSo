@@ -10,17 +10,16 @@ import com.ssafy.ssamuso.service.TeamServiceImpl;
 import com.ssafy.ssamuso.service.UserMyPageService;
 import com.ssafy.ssamuso.service.UserServiceImlp;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -34,6 +33,7 @@ public class UserController {
 
     @GetMapping
     public UserMyPageDTO userMyPage(@AuthenticationPrincipal UserDetails userDetails) {
+        log.info("user my page in");
         String username = userDetails.getUsername();
         UserMyPageDTO myPageInfo = userMyPageService.findMyPageInfo(username);
         return myPageInfo;
@@ -41,6 +41,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public TeammateInfoDTO simpleInfo(@PathVariable String username) throws IllegalArgumentException {
+        log.info("simple info in");
         Optional<TeammateInfoDTO> teammateByUsername = userServiceImlp.findTeammateByUsername(username);
 
         teammateByUsername
@@ -65,5 +66,12 @@ public class UserController {
         }
 
         return result;
+    }
+
+    @DeleteMapping
+    public String deleteUser(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        userServiceImlp.deleteUser(username);
+        return "ok";
     }
 }

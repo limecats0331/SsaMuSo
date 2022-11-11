@@ -21,7 +21,7 @@ public class UserMyPageDTO {
     private String track;
     private Integer classNum;
     private String profileImg;
-    private List<TechName> techstacks;
+    private List<String> techstacks;
     private String portfolios;
 
     /**
@@ -46,9 +46,12 @@ public class UserMyPageDTO {
         userMyPageDTO.setTechstacks(new ArrayList<>());
         if (user.getUserTechstacks() != null) {
             user.getUserTechstacks()
-                    .forEach(userTechstack -> userMyPageDTO.getTechstacks().add(userTechstack.getTechstack().getTechName()));
+                    .forEach(userTechstack -> userMyPageDTO.getTechstacks()
+                            .add(userTechstack
+                                    .getTechstack()
+                                    .getTechName()
+                                    .getDescription()));
         }
         return userMyPageDTO;
     }
-
 }
