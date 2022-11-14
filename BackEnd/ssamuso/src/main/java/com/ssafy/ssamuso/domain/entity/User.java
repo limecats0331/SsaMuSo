@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
+@EqualsAndHashCode
 public class User {
 
     @Id

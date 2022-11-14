@@ -40,7 +40,7 @@ public class BoardTechstackServiceImpl implements BoardTechstackService {
             Optional<Techstack> techstackOptional = techstackRepository.findByTechName(techName);
             BoardTechstack boardTechstack = BoardTechstack.builder()
                     .board(board).techstack(techstackOptional.get()).build();
-            boardTechstack= boardTechstackRepository.save(boardTechstack);
+            boardTechstack = boardTechstackRepository.save(boardTechstack);
             boardTechstacks.add(boardTechstack);
         }
         return boardTechstacks;

@@ -17,6 +17,8 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
+@EqualsAndHashCode
 public class Board {
 
     @Id
@@ -61,8 +63,8 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "board")
-    private List<BoardTechstack> boardTechstacks;
+//    @OneToMany(mappedBy = "board")
+//    private List<BoardTechstack> boardTechstacks;
 
     /**
      * 실명
