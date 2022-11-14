@@ -24,7 +24,7 @@ public class TestUtil {
 
     }
 
-    public static Techstack makeTechstack(long id, TechName techName){
+    public static Techstack makeTechstack(Long id, TechName techName){
         return Techstack.builder()
                 .id(id)
                 .techName(techName)

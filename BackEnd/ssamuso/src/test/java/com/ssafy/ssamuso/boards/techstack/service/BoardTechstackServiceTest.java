@@ -25,6 +25,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,13 +37,11 @@ public class BoardTechstackServiceTest {
     TechstackRepository techstackRepository;
 
 
-
-
     @Test
-    void findByBoardTest(){
+    void findByBoardTest() {
 
         User user = TestUtil.makeUser().get();
-        Board board = TestUtil.makeBoard(1L,user);
+        Board board = TestUtil.makeBoard(1L, user);
         Techstack techstack1 = TestUtil.makeTechstack(1L, TechName.Spring);
         Techstack techstack2 = TestUtil.makeTechstack(2L, TechName.JPA);
 
@@ -55,7 +54,7 @@ public class BoardTechstackServiceTest {
         System.out.println(boardTechstackList.get(1).getTechstack());
 
         BoardTechstackService boardTechstackService =
-                new BoardTechstackServiceImpl(boardTechstackRepository,techstackRepository);
+                new BoardTechstackServiceImpl(boardTechstackRepository, techstackRepository);
 
 
         List<TechName> result = boardTechstackService.findByBoard(board);
@@ -65,19 +64,18 @@ public class BoardTechstackServiceTest {
         assertThat(TechName.JPA).isEqualTo(result.get(1));
 
     }
+
     @Test
-    void saveTest(){
+    void saveTest() {
 
         User user = TestUtil.makeUser().get();
-        Board board = TestUtil.makeBoard(1L,user);
+        Board board = TestUtil.makeBoard(1L, user);
         Techstack techstack1 = TestUtil.makeTechstack(1L, TechName.Spring);
         Techstack techstack2 = TestUtil.makeTechstack(2L, TechName.JPA);
 
-        List<Techstack> techstacks = new ArrayList<>();
-        techstacks.add(techstack1);
-        techstacks.add(techstack2);
 
-        List<TechName> techNames=  new ArrayList<>();
+
+        List<TechName> techNames = new ArrayList<>();
         techNames.add(TechName.Spring);
         techNames.add(TechName.JPA);
 
@@ -86,22 +84,21 @@ public class BoardTechstackServiceTest {
         BoardTechstack mockReturn1 = TestUtil.makeBoardTechstack(1L, board, techstack1);
         BoardTechstack mockReturn2 = TestUtil.makeBoardTechstack(2L, board, techstack2);
 
-        doReturn(Optional.of(TestUtil.makeTechstack(1,TechName.Spring))).when(techstackRepository).findByTechName(TechName.Spring);
-        doReturn(Optional.of(TestUtil.makeTechstack(2,TechName.JPA))).when(techstackRepository).findByTechName(TechName.JPA);
-        doReturn(mockReturn1).when(boardTechstackRepository).save(boardTechstack);
-        doReturn(mockReturn2).when(boardTechstackRepository).save(boardTechstack2);
+        doReturn(Optional.of(techstack1)).when(techstackRepository).findByTechName(TechName.Spring);
+        doReturn(Optional.of(techstack2)).when(techstackRepository).findByTechName(TechName.JPA);
+        given(boardTechstackRepository.save(boardTechstack)).willReturn(mockReturn1);
+        given(boardTechstackRepository.save(boardTechstack2)).willReturn(mockReturn2);
+//        doReturn(mockReturn1).when(boardTechstackRepository).save(boardTechstack);
+//        doReturn(mockReturn2).when(boardTechstackRepository).save(boardTechstack2);
 
         BoardTechstackService boardTechstackService =
-                new BoardTechstackServiceImpl(boardTechstackRepository,techstackRepository);
+                new BoardTechstackServiceImpl(boardTechstackRepository, techstackRepository);
 
-        List<BoardTechstack> boardTechstacks = boardTechstackService.save(board,techNames);
+        List<Techstack> boardTechstacks = boardTechstackService.save(board, techNames);
 
 
-//        assertThat(boardTechstacks.get(0).getBoard()).isEqualTo(mockReturn1.getBoard());
-//        assertThat(boardTechstacks.get(1).getBoard()).isEqualTo(mockReturn2.getBoard());
-//        assertThat(boardTechstacks.get(0).getTechstack()).isEqualTo(mockReturn1.getTechstack());
-//        assertThat(boardTechstacks.get(1).getTechstack()).isEqualTo(mockReturn2.getTechstack());
-
+        assertThat(TechName.Spring).isEqualTo(boardTechstacks.get(0).getTechName());
+        assertThat(TechName.JPA).isEqualTo(boardTechstacks.get(1).getTechName());
 
 
     }

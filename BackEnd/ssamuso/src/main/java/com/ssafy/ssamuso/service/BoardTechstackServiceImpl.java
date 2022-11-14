@@ -34,15 +34,15 @@ public class BoardTechstackServiceImpl implements BoardTechstackService {
 
     @Override
     @Transactional
-    public List<BoardTechstack> save(Board board, List<TechName> techNames) {
-        List<BoardTechstack> boardTechstacks = new ArrayList<>();
+    public List<Techstack> save(Board board, List<TechName> techNames) {
+        List<Techstack> techstacks = new ArrayList<>();
         for (TechName techName : techNames) {
             Optional<Techstack> techstackOptional = techstackRepository.findByTechName(techName);
             BoardTechstack boardTechstack = BoardTechstack.builder()
                     .board(board).techstack(techstackOptional.get()).build();
-            boardTechstack = boardTechstackRepository.save(boardTechstack);
-            boardTechstacks.add(boardTechstack);
+            BoardTechstack saved = boardTechstackRepository.save(boardTechstack);
+            techstacks.add(saved.getTechstack());
         }
-        return boardTechstacks;
+        return techstacks;
     }
 }
