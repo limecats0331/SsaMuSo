@@ -12,7 +12,6 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class BoardTechstack {
 
     @Id
