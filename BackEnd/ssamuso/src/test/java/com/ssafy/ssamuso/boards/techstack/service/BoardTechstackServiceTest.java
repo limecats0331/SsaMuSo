@@ -97,8 +97,11 @@ public class BoardTechstackServiceTest {
 
         List<BoardTechstack> boardTechstacks = boardTechstackService.save(board,techNames);
 
-        assertThat(boardTechstacks.get(0)).isEqualTo(mockReturn1);
-        assertThat(boardTechstacks.get(1)).isEqualTo(mockReturn2);
+
+        assertThat(boardTechstacks.get(0).getBoard()).isEqualTo(mockReturn1.getBoard());
+        assertThat(boardTechstacks.get(1).getBoard()).isEqualTo(mockReturn2.getBoard());
+        assertThat(boardTechstacks.get(0).getTechstack()).isEqualTo(mockReturn1.getTechstack());
+        assertThat(boardTechstacks.get(1).getTechstack()).isEqualTo(mockReturn2.getTechstack());
 
 
 

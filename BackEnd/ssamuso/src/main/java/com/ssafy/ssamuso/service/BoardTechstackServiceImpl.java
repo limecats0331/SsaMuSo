@@ -25,7 +25,6 @@ public class BoardTechstackServiceImpl implements BoardTechstackService {
     public List<TechName> findByBoard(Board board) {
         List<BoardTechstack> boardTechstacks = boardTechstackRepository.findByBoard(board);
 
-        System.out.println(boardTechstacks.get(0).getTechstack());
         ArrayList<TechName> result = new ArrayList<>();
         for (BoardTechstack boardTechstach : boardTechstacks) {
             result.add(boardTechstach.getTechstack().getTechName());
@@ -36,9 +35,7 @@ public class BoardTechstackServiceImpl implements BoardTechstackService {
     @Override
     @Transactional
     public List<BoardTechstack> save(Board board, List<TechName> techNames) {
-
         List<BoardTechstack> boardTechstacks = new ArrayList<>();
-
         for (TechName techName : techNames) {
             Optional<Techstack> techstackOptional = techstackRepository.findByTechName(techName);
             BoardTechstack boardTechstack = BoardTechstack.builder()

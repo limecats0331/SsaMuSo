@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -59,6 +60,9 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "board")
+    private List<BoardTechstack> boardTechstacks;
 
     /**
      * 실명

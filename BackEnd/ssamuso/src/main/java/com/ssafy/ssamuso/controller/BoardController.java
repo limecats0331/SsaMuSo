@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.controller;
 
+import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.service.BoardService;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
@@ -7,6 +8,7 @@ import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.service.FileService;
 import com.ssafy.ssamuso.service.UserServiceImlp;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +31,8 @@ public class BoardController {
     private final UserServiceImlp userServiceImlp;
     private final FileService fileService;
 
+    private final ModelMapper modelMapper;
+
     @GetMapping
     public ResponseEntity<?> getList(Pageable pageable) throws Exception {
 
@@ -39,14 +44,18 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<?> wirteBoard(@RequestParam Map<String, Object> map
-                                        ,@RequestParam("images") ArrayList<MultipartFile> multipartFiles
+                                        ,@RequestParam(required = false, value = "images") ArrayList<MultipartFile> multipartFiles
                                         ,@AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String username = userDetails.getUsername();
         Optional<User> user = userServiceImlp.findByUsername(username);
-        Board board = new Board(map);
+        Board board = modelMapper.map(map,Board.class);
+        System.out.println(board);
         board.setUser(user.get());
 //        board.setUser(User.builder().id(1L).build());
         board = boardService.insert(board);
+
+        List<TechName> techNames = (List<TechName>) map.get("tech");
+        System.out.println(techNames);
 
         for (MultipartFile multipartFile : multipartFiles) {
             System.out.println("file test");
