@@ -49,7 +49,9 @@ public class BoardController {
         String username = userDetails.getUsername();
         Optional<User> user = userServiceImlp.findByUsername(username);
         Board board = modelMapper.map(map,Board.class);
+        System.out.println(map.get("title"));
         System.out.println(board);
+
         board.setUser(user.get());
 //        board.setUser(User.builder().id(1L).build());
         board = boardService.insert(board);
