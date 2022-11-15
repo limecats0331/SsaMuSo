@@ -48,7 +48,7 @@ public class User {
 
     private Integer classNum;
 
-    @Column(length = 45)
+    @Column(length = 300)
     private String profileImg;
 
     @Column(length = 100, nullable = false)

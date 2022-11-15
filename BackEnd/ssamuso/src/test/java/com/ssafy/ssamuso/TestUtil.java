@@ -6,14 +6,37 @@ import com.ssafy.ssamuso.domain.entity.enumtype.Role;
 import com.ssafy.ssamuso.domain.entity.enumtype.TeamRole;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 
+import java.awt.font.TextHitInfo;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class TestUtil {
 
+    public static List<TechName> makeTechNames(){
+        List<TechName> techNames = new ArrayList<>();
+        techNames.add(TechName.Spring);
+        techNames.add(TechName.JPA);
+        techNames.add(TechName.Spring);
 
+        return techNames;
+    }
+
+    public static List<BoardTechstack> makeBoardTechstacks( Board board,List<Techstack> techstacks){
+        List<BoardTechstack> boardTechstacks = new ArrayList<>();
+
+        for(Long i=1L;i<=techstacks.size();i++){
+            boardTechstacks.add(BoardTechstack.builder()
+                            .id(i).board(board).techstack(techstacks.get(i.intValue()-1))
+                    .build());
+        }
+
+        return boardTechstacks;
+
+
+    }
     public static BoardTechstack makeBoardTechstack(Long id, Board board,Techstack techstack){
         return BoardTechstack.builder()
                 .id(id)
@@ -24,11 +47,34 @@ public class TestUtil {
 
     }
 
+
     public static Techstack makeTechstack(Long id, TechName techName){
         return Techstack.builder()
                 .id(id)
                 .techName(techName)
                 .build();
+    }
+
+    public static List<Techstack> makeTechstacks(){
+        List<Techstack> techstacks = new ArrayList<>();
+
+        techstacks.add(Techstack.builder()
+                .id(1L)
+                .techName(TechName.Spring)
+                .build());
+
+        techstacks.add(Techstack.builder()
+                .id(2L)
+                .techName(TechName.JPA)
+                .build());
+
+        techstacks.add(Techstack.builder()
+                .id(3L)
+                .techName(TechName.React)
+                .build());
+
+
+        return techstacks;
     }
 
     public static Board makeBoard(long id, User user){

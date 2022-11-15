@@ -30,6 +30,8 @@ public class BoardDto {
     private Integer appNow;
     private Integer embNow;
     private String name;
+
+    private String profileImg;
     private LocalDate deadline;
     private Integer state;
 

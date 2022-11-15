@@ -23,9 +23,7 @@ public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
     private final BoardDeleteRepository boardDeleteRepository;
-
     private final BoardTechstackService boardTechstackService;
-    private final TechstackRepository techstackRepository;
 
 
     @Override
@@ -43,6 +41,7 @@ public class BoardServiceImpl implements BoardService{
         Optional<Board> boardOptional = boardRepository.findById(id);
         BoardDto boardDto = new BoardDto(boardOptional.get());
         boardDto.setTechNames(boardTechstackService.findByBoard(boardOptional.get()));
+        boardDto.setProfileImg(boardOptional.get().getUser().getProfileImg());
 
         return boardDto;
     }
