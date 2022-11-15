@@ -23,6 +23,7 @@ public class FileController {
     @PostMapping("/upload")
     @Transactional
     public ResponseEntity<?> brdImgUpload(long brdId, @RequestParam("images") List<MultipartFile> multipartFiles) {
+        System.out.println(brdId);
         Map<String, Object> result = new HashMap<String, Object>();
         String temp = null;
         try {

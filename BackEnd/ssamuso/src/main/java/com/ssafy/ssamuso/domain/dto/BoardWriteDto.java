@@ -17,6 +17,7 @@ import java.util.List;
 public class BoardWriteDto {
     private String title;
     private String content;
+    private LocalDate uploadDate;
     private Integer beMax;
     private Integer feMax;
     private Integer appMax;
