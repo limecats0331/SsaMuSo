@@ -63,8 +63,8 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToMany(mappedBy = "board")
-//    private List<BoardTechstack> boardTechstacks;
+    @OneToMany(mappedBy = "board")
+    private List<BoardTechstack> boardTechstacks;
 
     /**
      * 실명
@@ -87,7 +87,6 @@ public class Board {
         this.id = boardDto.getId();
         this.title = boardDto.getTitle();
         this.content = boardDto.getContent();
-        this.uploadDate = boardDto.getUploadDate();
         this.beMax = boardDto.getBeMax();
         this.feMax = boardDto.getFeMax();
         this.appMax = boardDto.getAppMax();
@@ -128,7 +127,6 @@ public class Board {
         board.setId(boardDto.getId());
         board.setTitle(boardDto.getTitle());
         board.setContent(boardDto.getContent());
-        board.setUploadDate(boardDto.getUploadDate());
         board.setBeMax(boardDto.getBeMax());
         board.setFeMax(boardDto.getFeMax());
         board.setAppMax(boardDto.getAppMax());

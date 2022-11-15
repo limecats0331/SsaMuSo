@@ -2,12 +2,14 @@ package com.ssafy.ssamuso.domain.dto;
 
 import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
 import com.ssafy.ssamuso.domain.entity.Board;
+import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +20,6 @@ public class BoardDto {
     private Long id;
     private String title;
     private String content;
-    private LocalDate uploadDate;
     private Integer beMax;
     private Integer feMax;
     private Integer appMax;
@@ -31,13 +32,14 @@ public class BoardDto {
     private LocalDate deadline;
     private Integer state;
 
+    private List<TechName> techNames;
+
     public BoardDto(){};
 
     public BoardDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.uploadDate = board.getUploadDate();
         this.beMax = board.getBeMax();
         this.feMax = board.getFeMax();
         this.appMax = board.getAppMax();

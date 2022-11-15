@@ -1,10 +1,13 @@
 package com.ssafy.ssamuso.controller;
 
+import com.ssafy.ssamuso.domain.dto.BoardWriteDto;
+import com.ssafy.ssamuso.domain.entity.BoardTechstack;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.service.BoardService;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.service.BoardTechstackService;
 import com.ssafy.ssamuso.service.FileService;
 import com.ssafy.ssamuso.service.UserServiceImlp;
 import lombok.AllArgsConstructor;
@@ -31,6 +34,7 @@ public class BoardController {
     private final UserServiceImlp userServiceImlp;
     private final FileService fileService;
 
+    private final BoardTechstackService boardTechstackService;
     private final ModelMapper modelMapper;
 
     @GetMapping
@@ -43,26 +47,20 @@ public class BoardController {
 
 
     @PostMapping
-    public ResponseEntity<?> wirteBoard(@RequestParam Map<String, Object> map
-                                        ,@RequestParam(required = false, value = "images") ArrayList<MultipartFile> multipartFiles
-                                        ,@AuthenticationPrincipal UserDetails userDetails) throws Exception {
-        String username = userDetails.getUsername();
-        Optional<User> user = userServiceImlp.findByUsername(username);
-        Board board = modelMapper.map(map,Board.class);
-        System.out.println(map.get("title"));
-        System.out.println(board);
+    public ResponseEntity<?> wirteBoard(@RequestBody BoardWriteDto boardWriteDto
+                                        /*, @AuthenticationPrincipal UserDetails userDetails*/) throws Exception {
+//        String username = userDetails.getUsername();
+//        Optional<User> user = userServiceImlp.findByUsername(username);
 
-        board.setUser(user.get());
-//        board.setUser(User.builder().id(1L).build());
+        System.out.println(boardWriteDto);
+
+        Board board = modelMapper.map(boardWriteDto,Board.class);
+//        board.setUser(user.get());
+        board.setUser(User.builder().id(1L).build());
         board = boardService.insert(board);
 
-        List<TechName> techNames = (List<TechName>) map.get("tech");
-        System.out.println(techNames);
-
-        for (MultipartFile multipartFile : multipartFiles) {
-            System.out.println("file test");
-            fileService.fileUpload(board.getId(), multipartFile);
-        }
+        List<TechName> techNames = boardWriteDto.getTechNames();
+        boardTechstackService.save(board, techNames);
 
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");
