@@ -36,6 +36,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public BoardDto getBoardDto(Long id) {
         Optional<Board> boardOptional = boardRepository.findById(id);
+        System.out.println(boardOptional.get());
         return new BoardDto(boardOptional.get());
     }
 

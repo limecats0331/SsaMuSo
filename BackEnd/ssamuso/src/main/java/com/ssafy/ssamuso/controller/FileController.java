@@ -22,14 +22,14 @@ public class FileController {
 
     @PostMapping("/upload")
     @Transactional
-    public ResponseEntity<?> brdImgUpload(long brdId, @RequestParam("images") List<MultipartFile> multipartFiles) {
-        System.out.println(brdId);
+    public ResponseEntity<?> brdImgUpload(long brdid, @RequestParam("images") List<MultipartFile> multipartFiles) {
+        System.out.println(brdid);
         Map<String, Object> result = new HashMap<String, Object>();
         String temp = null;
         try {
             for (MultipartFile multipartFile : multipartFiles) {
 
-                fileService.fileUpload(brdId, multipartFile);
+                fileService.fileUpload(brdid, multipartFile);
             }
 
             result.put("msg", "OK");

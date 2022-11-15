@@ -6,6 +6,7 @@ import com.ssafy.ssamuso.service.BoardService;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.service.BoardTechstackService;
 import com.ssafy.ssamuso.service.FileService;
 import com.ssafy.ssamuso.service.UserServiceImlp;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class BoardController {
     private final BoardService boardService;
     private final UserServiceImlp userServiceImlp;
     private final FileService fileService;
-
+    private final BoardTechstackService boardTechstackService;
     private final ModelMapper modelMapper;
 
     @GetMapping
@@ -48,14 +49,14 @@ public class BoardController {
                                         , @AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String username = userDetails.getUsername();
         Optional<User> user = userServiceImlp.findByUsername(username);
+//        Optional<User> user = userServiceImlp.findByUsername(boardWriteDto.getName());
         Board board = modelMapper.map(boardWriteDto,Board.class);
-        System.out.println(boardWriteDto);
 
         board.setUser(user.get());
-//        board.setUser(User.builder().id(1L).build());
         board = boardService.insert(board);
 
         List<TechName> techNames = boardWriteDto.getTechNames();
+        boardTechstackService.save( board, techNames);
         System.out.println(techNames);
 
 

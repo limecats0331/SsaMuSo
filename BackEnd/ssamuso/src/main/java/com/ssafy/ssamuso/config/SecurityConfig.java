@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -27,6 +29,10 @@ public class SecurityConfig {
 //                .defaultSuccessUrl("/")
 //                .userInfoEndpoint() // 필수
 //                .userService(principalOauth2UserService);
+        http.logout().disable();
+
+        http.csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         return http.build();
     }
 
