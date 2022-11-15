@@ -3,9 +3,11 @@ package com.ssafy.ssamuso.service;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardDelete;
+import com.ssafy.ssamuso.domain.entity.BoardTechstack;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.repository.BoardDeleteRepository;
 import com.ssafy.ssamuso.repository.BoardRepository;
+import com.ssafy.ssamuso.repository.TechstackRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,9 @@ public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
     private final BoardDeleteRepository boardDeleteRepository;
 
+    private final BoardTechstackService boardTechstackService;
+    private final TechstackRepository techstackRepository;
+
 
     @Override
     public Page<BoardDto> getList(Pageable pageable) {
@@ -36,8 +41,10 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public BoardDto getBoardDto(Long id) {
         Optional<Board> boardOptional = boardRepository.findById(id);
-        System.out.println(boardOptional.get());
-        return new BoardDto(boardOptional.get());
+        BoardDto boardDto = new BoardDto(boardOptional.get());
+        boardDto.setTechNames(boardTechstackService.findByBoard(boardOptional.get()));
+
+        return boardDto;
     }
 
     @Override
