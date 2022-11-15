@@ -7,6 +7,7 @@ import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.domain.entity.UserTechstack;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.repository.PortfoliosRepository;
+import com.ssafy.ssamuso.repository.UserDeleteRepository;
 import com.ssafy.ssamuso.repository.UserRepository;
 import com.ssafy.ssamuso.repository.UserTechstackRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,8 @@ class UserServiceImlpTest {
     private PortfoliosRepository portfoliosRepository;
     @Mock
     private UserTechstackRepository userTechstackRepository;
+    @Mock
+    private UserDeleteRepository userDeleteRepository;
 
     @BeforeEach
     void mocking() {
@@ -47,7 +50,7 @@ class UserServiceImlpTest {
     @Test
     void 팀메이트_정보_확인() throws Exception {
         //Given
-        UserServiceImlp userServiceImlp = new UserServiceImlp(userRepository, portfoliosRepository, userTechstackRepository);
+        UserServiceImlp userServiceImlp = new UserServiceImlp(userRepository, portfoliosRepository, userTechstackRepository, null);
 
         //When
         Optional<TeammateInfoDTO> userAInfo = userServiceImlp.findTeammateByUsername("userA");
@@ -63,7 +66,7 @@ class UserServiceImlpTest {
     @Test
     void 없는_유저이름() throws Exception {
         //Given
-        UserServiceImlp userServiceImlp = new UserServiceImlp(userRepository, portfoliosRepository, userTechstackRepository);
+        UserServiceImlp userServiceImlp = new UserServiceImlp(userRepository, portfoliosRepository, userTechstackRepository, null);
 
         //When
         Optional<TeammateInfoDTO> userAInfo = userServiceImlp.findTeammateByUsername("userB");

@@ -1,8 +1,12 @@
 package com.ssafy.ssamuso.domain.entity.enumtype;
 
-import lombok.ToString;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@ToString
+@Getter
+@RequiredArgsConstructor
 public enum TechName {
-    React, Spring, JPA;
+    React("React"), Spring("Spring"), JPA("JPA");
+
+    private final String description;
 }
