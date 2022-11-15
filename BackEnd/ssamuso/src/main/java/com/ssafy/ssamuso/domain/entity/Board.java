@@ -2,6 +2,7 @@ package com.ssafy.ssamuso.domain.entity;
 
 import com.ssafy.ssamuso.domain.dto.BoardDetailDto;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
+import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +87,35 @@ public class Board {
         return boardPage.map(BoardDto::new);
     }
 
+    public static Page<BoardDto> convert(Page<Board> boardPage, List<List<TechName>> techNameLists, List<List<String>> imgs, List<String> profileImgs) {
+        Iterator imgIter = imgs.iterator();
+        Iterator techIter = techNameLists.iterator();
+        Iterator profileIter = profileImgs.iterator();
+        Page<BoardDto> boardDtoList = boardPage.map(board -> {
+            return BoardDto.builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .uploadDate(board.getUploadDate())
+                    .name(board.getName())
+                    .deadline(board.getDeadline())
+                    .state(board.getState())
+                    .beMax(board.getBeMax())
+                    .feMax(board.getFeMax())
+                    .appMax(board.getAppMax())
+                    .embMax(board.getEmbMax())
+                    .beNow(board.getBeNow())
+                    .feNow(board.getFeNow())
+                    .appNow(board.getAppNow())
+                    .embNow(board.getEmbNow())
+                    .imgUrls((List<String>) imgIter.next())
+                    .techNames((List<TechName>) techIter.next())
+                    .profileImg((String) profileIter.next())
+                    .build();
+
+        });
+        return boardDtoList;
+    }
+
     public Board(BoardDto boardDto) {
         this.id = boardDto.getId();
         this.title = boardDto.getTitle();
@@ -101,9 +133,6 @@ public class Board {
         this.deadline = boardDto.getDeadline();
         this.state = boardDto.getState();
     }
-
-
-
 
 
     public Board(Map map) {

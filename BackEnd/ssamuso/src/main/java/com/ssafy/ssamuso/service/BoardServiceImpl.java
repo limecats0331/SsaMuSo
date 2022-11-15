@@ -8,6 +8,7 @@ import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.repository.BoardDeleteRepository;
 import com.ssafy.ssamuso.repository.BoardRepository;
 import lombok.AllArgsConstructor;
+import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,22 +16,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
     private final BoardDeleteRepository boardDeleteRepository;
     private final BoardTechstackService boardTechstackService;
-
     private final FileService fileService;
+
 
     @Override
     public Page<BoardDto> getList(Pageable pageable) {
-        return Board.convert(boardRepository.findAll(pageable));
+        Page<Board> boards = boardRepository.findAll(pageable);
+        List<List<String>> imgLists = new ArrayList<>();
+        List<List<TechName>> techNameLists = new ArrayList<>();
+        List<String> profileImgs = new ArrayList<>();
+        Iterator iterator = boards.iterator();
+        while (iterator.hasNext()) {
+            Board board = (Board) iterator.next();
+            List<String> imgs = fileService.findUrlByBoardId(board.getId());
+            List<TechName> techNames = boardTechstackService.findByBoard(board);
+
+            imgLists.add(imgs);
+            techNameLists.add(techNames);
+            profileImgs.add(board.getUser().getProfileImg());
+
+        }
+
+        Page<BoardDto> boardDtos = Board.convert(boardRepository.findAll(pageable), techNameLists, imgLists, profileImgs);
+        return boardDtos;
+
 
     }
 

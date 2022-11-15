@@ -8,11 +8,13 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Builder
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class BoardDto {
 
     private Long id;
