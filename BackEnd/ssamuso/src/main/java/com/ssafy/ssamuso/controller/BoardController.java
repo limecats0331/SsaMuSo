@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.controller;
 
+import com.ssafy.ssamuso.domain.dto.BoardDetailDto;
 import com.ssafy.ssamuso.domain.dto.BoardWriteDto;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.service.BoardService;
@@ -69,8 +70,9 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBoard(@PathVariable Long id) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        result.put("images", fileService.findUrlByBoardId(id));
-        result.put("boards", boardService.getBoardDto(id));
+        BoardDetailDto boardDetailDto = boardService.getBoardDetailDto(id);
+        boardDetailDto.setImgUrls(fileService.findUrlByBoardId(id));
+        result.put("boards", boardDetailDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

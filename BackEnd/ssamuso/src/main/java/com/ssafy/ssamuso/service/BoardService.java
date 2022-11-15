@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.service;
 
+import com.ssafy.ssamuso.domain.dto.BoardDetailDto;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
@@ -15,6 +16,8 @@ public interface BoardService {
     Page<BoardDto> getListByTags(ArrayList<TechName> techNames, Pageable pageable);
 
     BoardDto getBoardDto(Long id);
+
+    BoardDetailDto getBoardDetailDto(Long id);
 
     Board getBoard(Long id);
 

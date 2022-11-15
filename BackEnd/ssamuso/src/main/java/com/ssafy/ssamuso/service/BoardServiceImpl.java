@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.service;
 
+import com.ssafy.ssamuso.domain.dto.BoardDetailDto;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardDelete;
@@ -28,7 +29,10 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Page<BoardDto> getList(Pageable pageable) {
+
+
         return Board.convert(boardRepository.findAll(pageable));
+
     }
 
     @Override
@@ -44,6 +48,16 @@ public class BoardServiceImpl implements BoardService{
         boardDto.setProfileImg(boardOptional.get().getUser().getProfileImg());
 
         return boardDto;
+    }
+
+    @Override
+    public BoardDetailDto getBoardDetailDto(Long id) {
+        Optional<Board> boardOptional = boardRepository.findById(id);
+        BoardDetailDto boardDetailDto = new BoardDetailDto(boardOptional.get());
+        boardDetailDto.setTechNames(boardTechstackService.findByBoard(boardOptional.get()));
+        boardDetailDto.setProfileImg(boardOptional.get().getUser().getProfileImg());
+
+        return boardDetailDto;
     }
 
     @Override

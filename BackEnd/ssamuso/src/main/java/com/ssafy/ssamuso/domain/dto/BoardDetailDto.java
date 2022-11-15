@@ -1,22 +1,21 @@
 package com.ssafy.ssamuso.domain.dto;
 
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class BoardDto {
+public class BoardDetailDto {
 
     private Long id;
     private String title;
+    private String content;
     private LocalDate uploadDate;
     private Integer beMax;
     private Integer feMax;
@@ -35,11 +34,10 @@ public class BoardDto {
     private List<TechName> techNames;
 
     private List<String> imgUrls;
-
-
-    public BoardDto(Board board) {
+    public BoardDetailDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
+        this.content = board.getContent();
         this.uploadDate = board.getUploadDate();
         this.beMax = board.getBeMax();
         this.feMax = board.getFeMax();
@@ -55,6 +53,4 @@ public class BoardDto {
         this.state = board.getState();
 
     }
-
-
 }

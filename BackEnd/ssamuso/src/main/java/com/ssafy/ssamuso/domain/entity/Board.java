@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.domain.entity;
 
+import com.ssafy.ssamuso.domain.dto.BoardDetailDto;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -86,7 +87,6 @@ public class Board {
     public Board(BoardDto boardDto) {
         this.id = boardDto.getId();
         this.title = boardDto.getTitle();
-        this.content = boardDto.getContent();
         this.uploadDate = boardDto.getUploadDate();
         this.beMax = boardDto.getBeMax();
         this.feMax = boardDto.getFeMax();
@@ -123,11 +123,31 @@ public class Board {
         this.state = Integer.parseInt((String) map.get("state"));
     }
 
+    public static Board revise(Board board, BoardDetailDto boardDetailDto) {
+
+        board.setId(boardDetailDto.getId());
+        board.setTitle(boardDetailDto.getTitle());
+        board.setContent(boardDetailDto.getContent());
+        board.setUploadDate(boardDetailDto.getUploadDate());
+        board.setBeMax(boardDetailDto.getBeMax());
+        board.setFeMax(boardDetailDto.getFeMax());
+        board.setAppMax(boardDetailDto.getAppMax());
+        board.setEmbMax(boardDetailDto.getEmbMax());
+        board.setBeNow(boardDetailDto.getBeNow());
+        board.setFeNow(boardDetailDto.getFeNow());
+        board.setAppNow(boardDetailDto.getAppNow());
+        board.setEmbNow(boardDetailDto.getEmbNow());
+        board.setName(boardDetailDto.getName());
+        board.setDeadline(boardDetailDto.getDeadline());
+        board.setState(boardDetailDto.getState());
+
+        return board;
+    }
+
     public static Board revise(Board board, BoardDto boardDto) {
 
         board.setId(boardDto.getId());
         board.setTitle(boardDto.getTitle());
-        board.setContent(boardDto.getContent());
         board.setUploadDate(boardDto.getUploadDate());
         board.setBeMax(boardDto.getBeMax());
         board.setFeMax(boardDto.getFeMax());
