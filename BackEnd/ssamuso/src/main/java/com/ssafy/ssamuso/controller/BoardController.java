@@ -40,6 +40,8 @@ public class BoardController {
     public ResponseEntity<?> getList(Pageable pageable) throws Exception {
 
         Page<BoardDto> boardList = boardService.getList(pageable);
+
+
         return new ResponseEntity<>(boardList, HttpStatus.OK);
 
     }

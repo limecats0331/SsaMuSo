@@ -12,6 +12,7 @@ import com.ssafy.ssamuso.repository.BoardRepository;
 import com.ssafy.ssamuso.service.BoardService;
 import com.ssafy.ssamuso.service.BoardServiceImpl;
 import com.ssafy.ssamuso.service.BoardTechstackService;
+import com.ssafy.ssamuso.service.FileService;
 import com.ssafy.ssamuso.util.EntityMaker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,8 @@ public class BoardServiceTest {
     private BoardDeleteRepository boardDeleteRepository;
     @Mock
     BoardTechstackService boardTechstackService;
+    @Mock
+    FileService fileService;
     private BoardService boardService;
 
 
@@ -61,7 +64,7 @@ public class BoardServiceTest {
         doReturn(boardOptional).when(boardRepository).findById(anyLong());
         doReturn(techNames).when(boardTechstackService).findByBoard(any(Board.class));
 
-        boardService = new BoardServiceImpl(boardRepository,boardDeleteRepository, boardTechstackService);
+        boardService = new BoardServiceImpl(boardRepository,boardDeleteRepository, boardTechstackService,fileService);
 
         BoardDto result = boardService.getBoardDto(1L);
         result.setTechNames(techNames);

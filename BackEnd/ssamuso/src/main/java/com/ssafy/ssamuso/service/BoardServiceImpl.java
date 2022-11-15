@@ -4,18 +4,18 @@ import com.ssafy.ssamuso.domain.dto.BoardDetailDto;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardDelete;
-import com.ssafy.ssamuso.domain.entity.BoardTechstack;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.repository.BoardDeleteRepository;
 import com.ssafy.ssamuso.repository.BoardRepository;
-import com.ssafy.ssamuso.repository.TechstackRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,11 +26,10 @@ public class BoardServiceImpl implements BoardService{
     private final BoardDeleteRepository boardDeleteRepository;
     private final BoardTechstackService boardTechstackService;
 
+    private final FileService fileService;
 
     @Override
     public Page<BoardDto> getList(Pageable pageable) {
-
-
         return Board.convert(boardRepository.findAll(pageable));
 
     }
