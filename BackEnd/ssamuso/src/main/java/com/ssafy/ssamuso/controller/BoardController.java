@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.controller;
 
+import com.ssafy.ssamuso.domain.dto.BoardWriteDto;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import com.ssafy.ssamuso.service.BoardService;
 import com.ssafy.ssamuso.domain.dto.BoardDto;
@@ -43,26 +44,20 @@ public class BoardController {
 
 
     @PostMapping
-    public ResponseEntity<?> wirteBoard(@RequestParam Map<String, Object> map
-                                        ,@RequestParam(required = false, value = "images") ArrayList<MultipartFile> multipartFiles
-                                        ,@AuthenticationPrincipal UserDetails userDetails) throws Exception {
+    public ResponseEntity<?> wirteBoard(@RequestBody BoardWriteDto boardWriteDto
+                                        , @AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String username = userDetails.getUsername();
         Optional<User> user = userServiceImlp.findByUsername(username);
-        Board board = modelMapper.map(map,Board.class);
-        System.out.println(map.get("title"));
-        System.out.println(board);
+        Board board = modelMapper.map(boardWriteDto,Board.class);
+        System.out.println(boardWriteDto);
 
         board.setUser(user.get());
 //        board.setUser(User.builder().id(1L).build());
         board = boardService.insert(board);
 
-        List<TechName> techNames = (List<TechName>) map.get("tech");
+        List<TechName> techNames = boardWriteDto.getTechNames();
         System.out.println(techNames);
 
-        for (MultipartFile multipartFile : multipartFiles) {
-            System.out.println("file test");
-            fileService.fileUpload(board.getId(), multipartFile);
-        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");
