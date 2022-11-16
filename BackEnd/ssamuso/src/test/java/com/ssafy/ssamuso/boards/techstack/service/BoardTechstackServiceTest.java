@@ -6,6 +6,7 @@ import com.ssafy.ssamuso.domain.entity.BoardTechstack;
 import com.ssafy.ssamuso.domain.entity.Techstack;
 import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
+import com.ssafy.ssamuso.repository.BoardRepository;
 import com.ssafy.ssamuso.repository.BoardTechstackRepository;
 import com.ssafy.ssamuso.repository.TechstackRepository;
 import com.ssafy.ssamuso.service.BoardTechstackService;
@@ -36,6 +37,8 @@ public class BoardTechstackServiceTest {
     @Mock
     TechstackRepository techstackRepository;
 
+    @Mock
+    BoardRepository boardRepository;
 
     @Test
     void findByBoardTest() {
@@ -54,7 +57,7 @@ public class BoardTechstackServiceTest {
         System.out.println(boardTechstackList.get(1).getTechstack());
 
         BoardTechstackService boardTechstackService =
-                new BoardTechstackServiceImpl(boardTechstackRepository, techstackRepository);
+                new BoardTechstackServiceImpl(boardTechstackRepository, techstackRepository, boardRepository);
 
 
         List<TechName> result = boardTechstackService.findByBoard(board);
@@ -92,7 +95,7 @@ public class BoardTechstackServiceTest {
 //        doReturn(mockReturn2).when(boardTechstackRepository).save(boardTechstack2);
 
         BoardTechstackService boardTechstackService =
-                new BoardTechstackServiceImpl(boardTechstackRepository, techstackRepository);
+                new BoardTechstackServiceImpl(boardTechstackRepository, techstackRepository, boardRepository);
 
         List<Techstack> boardTechstacks = boardTechstackService.save(board, techNames);
 

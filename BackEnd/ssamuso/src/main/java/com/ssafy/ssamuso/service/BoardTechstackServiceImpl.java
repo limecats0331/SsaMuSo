@@ -4,6 +4,8 @@ import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.BoardTechstack;
 import com.ssafy.ssamuso.domain.entity.Techstack;
 import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
+import com.ssafy.ssamuso.repository.BoardDeleteRepository;
+import com.ssafy.ssamuso.repository.BoardRepository;
 import com.ssafy.ssamuso.repository.BoardTechstackRepository;
 import com.ssafy.ssamuso.repository.TechstackRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,8 @@ public class BoardTechstackServiceImpl implements BoardTechstackService {
 
     private final BoardTechstackRepository boardTechstackRepository;
     private final TechstackRepository techstackRepository;
+
+    private final BoardRepository boardRepository;
 
     @Override
     public List<TechName> findByBoard(Board board) {
@@ -44,5 +48,20 @@ public class BoardTechstackServiceImpl implements BoardTechstackService {
             techstacks.add(saved.getTechstack());
         }
         return techstacks;
+    }
+
+    @Override
+    @Transactional
+    public int delete(Long id) {
+        Optional<Board> boardOptional = boardRepository.findById(id);
+        List<BoardTechstack> boardTechstacks = boardTechstackRepository.findByBoard(boardOptional.get());
+
+        for (BoardTechstack boardTechstack : boardTechstacks) {
+            boardTechstackRepository.delete(boardTechstack);
+        }
+
+
+
+        return 0;
     }
 }

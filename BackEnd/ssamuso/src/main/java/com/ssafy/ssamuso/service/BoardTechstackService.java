@@ -12,4 +12,7 @@ public interface BoardTechstackService {
     List<TechName> findByBoard(Board board);
 
     List<Techstack> save(Board board, List<TechName> techNames);
+
+    int delete(Long boardId);
+
 }

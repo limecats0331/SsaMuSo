@@ -79,7 +79,7 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAll(@PathVariable Long id, @RequestBody  BoardDto boardDto
+    public ResponseEntity<?> updateAll(@PathVariable Long id, @RequestBody  BoardDetailDto boardDetailDto
                                        , @AuthenticationPrincipal UserDetails userDetails) throws Exception {
 //        System.out.println(boardDto);
         Board tempBoard = boardService.getBoard(id);
@@ -90,7 +90,7 @@ public class BoardController {
         if (tempBoard.getUser().getId() != user.get().getId()) {
             throw new Exception("not your board");
         }
-        tempBoard = Board.revise(tempBoard,boardDto);
+        tempBoard = Board.revise(tempBoard,boardDetailDto);
         boardService.insert(tempBoard);
         Map<String, Object> result = new HashMap<>();
         result.put("msg", "OK");
@@ -114,10 +114,10 @@ public class BoardController {
 //        Optional<User> user = userServiceImlp.findByUsername("test");
         Board tempBoard = boardService.getBoard(id);
         fileService.delete(id);
-
+        boardTechstackService.delete(id);
 //        System.out.println(tempBoard.getUser().getId());
 //        System.out.println(user.get().getId());
-        if (tempBoard.getName().equals(user.get().getUsername()) ) {
+        if (!tempBoard.getName().equals(user.get().getUsername()) ) {
             throw new Exception("not your board");
         }
 
