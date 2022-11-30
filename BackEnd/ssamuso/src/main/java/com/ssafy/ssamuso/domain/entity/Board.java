@@ -72,6 +72,9 @@ public class Board {
     @ColumnDefault("0")
     private Integer state;
 
+    @Column(length = 60, nullable = false, updatable = false)
+    private String routingKey;
+
     public static Page<BoardDto> convert(Page<Board> boardPage) {
 
         return boardPage.map(BoardDto::new);
@@ -94,11 +97,8 @@ public class Board {
         this.name = boardDto.getName();
         this.deadline = boardDto.getDeadline();
         this.state = boardDto.getState();
+        this.routingKey = boardDto.getRoutingKey();
     }
-
-
-
-
 
     public Board(Map map) {
         this.title = (String) map.get("title");
@@ -115,6 +115,7 @@ public class Board {
         this.name = (String) map.get("name");
         this.deadline = LocalDate.parse((String) map.get("deadline"));
         this.state = Integer.parseInt((String) map.get("state"));
+        this.routingKey = (String) map.get("routingKey");
     }
 
     public static Board revise(Board board, BoardDto boardDto) {
@@ -134,6 +135,7 @@ public class Board {
         board.setName(boardDto.getName());
         board.setDeadline(boardDto.getDeadline());
         board.setState(boardDto.getState());
+        board.setRoutingKey(board.getRoutingKey());
 
         return board;
     }

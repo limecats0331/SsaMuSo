@@ -9,6 +9,7 @@ import com.ssafy.ssamuso.domain.entity.enumtype.TechName;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class TestUtil {
     static public Optional<Portfolios> makePortfolios(User user) {
@@ -94,6 +95,7 @@ public class TestUtil {
                 .uploadDate(LocalDate.now())
                 .deadline(LocalDate.now().plusMonths(1))
                 .user(user)
+                .routingKey(UUID.randomUUID().toString())
                 .build());
     }
 
