@@ -50,10 +50,10 @@ class UserServiceImlpTest {
     @Test
     void 팀메이트_정보_확인() throws Exception {
         //Given
-        UserServiceImlp userServiceImlp = new UserServiceImlp(userRepository, portfoliosRepository, userTechstackRepository, null);
+        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepository, portfoliosRepository, userTechstackRepository, null);
 
         //When
-        Optional<TeammateInfoDTO> userAInfo = userServiceImlp.findTeammateByUsername("userA");
+        Optional<TeammateInfoDTO> userAInfo = userServiceImpl.findTeammateByUsername("userA");
 
         //Then
         TeammateInfoDTO teammateInfoDTO = new TeammateInfoDTO();
@@ -66,10 +66,10 @@ class UserServiceImlpTest {
     @Test
     void 없는_유저이름() throws Exception {
         //Given
-        UserServiceImlp userServiceImlp = new UserServiceImlp(userRepository, portfoliosRepository, userTechstackRepository, null);
+        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepository, portfoliosRepository, userTechstackRepository, null);
 
         //When
-        Optional<TeammateInfoDTO> userAInfo = userServiceImlp.findTeammateByUsername("userB");
+        Optional<TeammateInfoDTO> userAInfo = userServiceImpl.findTeammateByUsername("userB");
 
         //Then
         assertThat(userAInfo.isEmpty()).isTrue();

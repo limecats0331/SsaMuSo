@@ -29,6 +29,8 @@ public class BoardDto {
     private LocalDate deadline;
     private Integer state;
 
+    private String routingKey;
+
     public BoardDto(){};
 
     public BoardDto(Board board) {
@@ -48,6 +50,7 @@ public class BoardDto {
         this.name = board.getName();
         this.deadline = board.getDeadline();
         this.state = board.getState();
+        this.routingKey = board.getRoutingKey();
 
     }
 

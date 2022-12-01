@@ -2,7 +2,7 @@ package com.ssafy.ssamuso.controller;
 
 import com.ssafy.ssamuso.TestUtil;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
-import com.ssafy.ssamuso.service.UserServiceImlp;
+import com.ssafy.ssamuso.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -16,14 +16,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
     @Mock
-    private UserServiceImlp userServiceImlp;
+    private UserServiceImpl userServiceImpl;
 
     @Test
     void 있는_유저를_검색할때() throws Exception {
         //Given
         Optional<TeammateInfoDTO> teammateInfoDTO = TestUtil.makeTeammateInfoDTO();
-        doReturn(teammateInfoDTO).when(userServiceImlp).findTeammateByUsername("userA");
-        UserController userController = new UserController(null, userServiceImlp, null, null);
+        doReturn(teammateInfoDTO).when(userServiceImpl).findTeammateByUsername("userA");
+        UserController userController = new UserController(null, userServiceImpl, null, null);
 
         TeammateInfoDTO resultInfo = TestUtil.makeTeammateInfoDTO().get();
         //When
@@ -37,8 +37,8 @@ class UserControllerTest {
     @Test
     void 없는_유저_검색할때() throws Exception {
         //Given
-        doReturn(Optional.empty()).when(userServiceImlp).findTeammateByUsername("userB");
-        UserController userController = new UserController(null, userServiceImlp, null, null);
+        doReturn(Optional.empty()).when(userServiceImpl).findTeammateByUsername("userB");
+        UserController userController = new UserController(null, userServiceImpl, null, null);
 
         //When
         assertThatThrownBy(() -> userController.simpleInfo("userB"))

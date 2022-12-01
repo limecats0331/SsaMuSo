@@ -5,7 +5,7 @@ import com.ssafy.ssamuso.domain.dto.BoardDto;
 import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.User;
 import com.ssafy.ssamuso.service.FileService;
-import com.ssafy.ssamuso.service.UserServiceImlp;
+import com.ssafy.ssamuso.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +25,7 @@ import java.util.*;
 public class BoardController {
 
     private final BoardService boardService;
-    private final UserServiceImlp userServiceImlp;
+    private final UserService userService;
     private final FileService fileService;
 
     @GetMapping
@@ -42,7 +42,7 @@ public class BoardController {
                                         ,@RequestParam("images") ArrayList<MultipartFile> multipartFiles
                                         ,@AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String username = userDetails.getUsername();
-        Optional<User> user = userServiceImlp.findByUsername(username);
+        Optional<User> user = userService.findByUsername(username);
         Board board = new Board(map);
         board.setUser(user.get());
 //        board.setUser(User.builder().id(1L).build());
@@ -73,7 +73,7 @@ public class BoardController {
 //        System.out.println(boardDto);
         Board tempBoard = boardService.getBoard(id);
         String username = userDetails.getUsername();
-        Optional<User> user = userServiceImlp.findByUsername(username);
+        Optional<User> user = userService.findByUsername(username);
 
 //        Optional<User> user = userServiceImlp.findByUsername("test");
         if (tempBoard.getUser().getId() != user.get().getId()) {
@@ -99,7 +99,7 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String username = userDetails.getUsername();
-        Optional<User> user = userServiceImlp.findByUsername(username);
+        Optional<User> user = userService.findByUsername(username);
 //        Optional<User> user = userServiceImlp.findByUsername("test");
         Board tempBoard = boardService.getBoard(id);
         fileService.delete(id);
