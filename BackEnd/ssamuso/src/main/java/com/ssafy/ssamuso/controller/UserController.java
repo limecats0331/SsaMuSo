@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.controller;
 
+import com.ssafy.ssamuso.domain.dto.IdentificationDto;
 import com.ssafy.ssamuso.domain.dto.MyTeamDTO;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.dto.UserMyPageDTO;
@@ -71,5 +72,10 @@ public class UserController {
         String username = userDetails.getUsername();
         userService.deleteUser(username);
         return "ok";
+    }
+
+    @PostMapping("/identify")
+    public ResponseEntity<?> identify(@RequestBody IdentificationDto identificationDto) {
+        return userService.identify(identificationDto) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

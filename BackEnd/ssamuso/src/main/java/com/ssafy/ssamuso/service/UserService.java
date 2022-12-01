@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.service;
 
+import com.ssafy.ssamuso.domain.dto.IdentificationDto;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.entity.User;
 
@@ -14,4 +15,6 @@ public interface UserService {
     Optional<TeammateInfoDTO> findTeammateByUsername(String username);
 
     void deleteUser(String username);
+
+    boolean identify(IdentificationDto identificationDto);
 }

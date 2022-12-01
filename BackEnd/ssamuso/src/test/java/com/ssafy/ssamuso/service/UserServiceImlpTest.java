@@ -1,6 +1,7 @@
 package com.ssafy.ssamuso.service;
 
 import com.ssafy.ssamuso.TestUtil;
+import com.ssafy.ssamuso.domain.dto.IdentificationDto;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.entity.Portfolios;
 import com.ssafy.ssamuso.domain.entity.User;
@@ -17,10 +18,12 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -38,13 +41,19 @@ class UserServiceImlpTest {
     @BeforeEach
     void mocking() {
         Optional<User> user = TestUtil.makeUser();
-        Mockito.doReturn(user).when(userRepository).findByUsername(user.get().getUsername());
+        doReturn(user).when(userRepository).findByUsername(user.get().getUsername());
 
         Optional<Portfolios> portfolios = TestUtil.makePortfolios(user.get());
-        Mockito.doReturn(portfolios).when(portfoliosRepository).findByUser(user.get());
+        doReturn(portfolios).when(portfoliosRepository).findByUser(user.get());
 
         Optional<List<UserTechstack>> userTechstacks = TestUtil.makeUserTechStacks();
-        Mockito.doReturn(userTechstacks).when(userTechstackRepository).findAllByUser(user.get());
+        doReturn(userTechstacks).when(userTechstackRepository).findAllByUser(user.get());
+
+        List<String> keyList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            keyList.add(String.valueOf(i));
+        }
+        doReturn(keyList).when(userRepository).findRoutingKeyByUsername(any(String.class));
     }
 
     @Test
@@ -73,6 +82,22 @@ class UserServiceImlpTest {
 
         //Then
         assertThat(userAInfo.isEmpty()).isTrue();
+    }
+
+    @Test
+    void identify() {
+        //given
+        IdentificationDto test1 = new IdentificationDto("test", "0");
+        IdentificationDto test2 = new IdentificationDto("test", "7");
+        UserServiceImpl userService = new UserServiceImpl(userRepository, portfoliosRepository, userTechstackRepository, null);
+
+        //when
+        boolean identify1 = userService.identify(test1);
+        boolean identify2 = userService.identify(test2);
+
+        //then
+        assertThat(identify1).isTrue();
+        assertThat(identify2).isFalse();
     }
 
 }

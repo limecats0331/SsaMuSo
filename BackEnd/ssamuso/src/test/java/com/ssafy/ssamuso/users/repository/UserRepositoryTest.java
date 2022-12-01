@@ -1,11 +1,22 @@
 package com.ssafy.ssamuso.users.repository;
 
+import com.ssafy.ssamuso.TestUtil;
+import com.ssafy.ssamuso.domain.entity.Board;
 import com.ssafy.ssamuso.domain.entity.User;
+import com.ssafy.ssamuso.domain.entity.enumtype.Role;
+import com.ssafy.ssamuso.repository.BoardRepository;
 import com.ssafy.ssamuso.repository.UserRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -15,6 +26,12 @@ class UserRepositoryTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BoardRepository boardRepository;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     //"kim", "gumi", 8, "mobile", 4, "src", "password"
     @Test
@@ -33,5 +50,44 @@ class UserRepositoryTest {
 
         System.out.println("savedUser = " + savedUser);
         assertThat(user).isEqualTo(savedUser);
+    }
+
+    @Test
+    @Disabled
+    void findRoutingKeyByUsername() {
+        //given
+        User user = User.builder()
+                .username("Test kim")
+                .area("gumi")
+                .term(8)
+                .track("mobile")
+                .classNum(4)
+                .profileImg("src")
+                .password("password")
+                .email("sdoifj@naver.com")
+                .name("kim")
+                .role(Role.USER)
+                .build();
+
+        Board board = TestUtil.makeBoard2(user, "title");
+
+        userRepository.save(user);
+
+        boardRepository.save(board);
+
+        entityManager.flush();
+        entityManager.clear();
+
+
+//        Optional<User> test_kim = userRepository.findByUsername("Test kim");
+
+//        assertThat(test_kim.get().getBoardList().size()).isEqualTo(1);
+
+        //when
+        List<String> routingKeyList = userRepository.findRoutingKeyByUsername("Test kim");
+
+        //then
+        assertThat(routingKeyList.size()).isEqualTo(1);
+        assertThat(routingKeyList.get(0)).isInstanceOf(String.class);
     }
 }
