@@ -4,13 +4,11 @@ import com.ssafy.ssamuso.domain.dto.MyTeamDTO;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.dto.UserMyPageDTO;
 import com.ssafy.ssamuso.domain.entity.Teammate;
-import com.ssafy.ssamuso.domain.entity.User;
-import com.ssafy.ssamuso.service.BoardServiceImpl;
-import com.ssafy.ssamuso.service.TeamServiceImpl;
-import com.ssafy.ssamuso.service.UserMyPageService;
-import com.ssafy.ssamuso.service.UserServiceImlp;
+import com.ssafy.ssamuso.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserMyPageService userMyPageService;
-    private final UserServiceImlp userServiceImlp;
+    private final UserService userService;
 
     private final BoardServiceImpl boardService;
     private final TeamServiceImpl teamService;
@@ -42,7 +40,7 @@ public class UserController {
     @GetMapping("/{username}")
     public TeammateInfoDTO simpleInfo(@PathVariable String username) throws IllegalArgumentException {
         log.info("simple info in");
-        Optional<TeammateInfoDTO> teammateByUsername = userServiceImlp.findTeammateByUsername(username);
+        Optional<TeammateInfoDTO> teammateByUsername = userService.findTeammateByUsername(username);
 
         teammateByUsername
                 .orElseThrow(() -> new IllegalArgumentException("없는 유저"));
@@ -71,7 +69,7 @@ public class UserController {
     @DeleteMapping
     public String deleteUser(@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
-        userServiceImlp.deleteUser(username);
+        userService.deleteUser(username);
         return "ok";
     }
 }

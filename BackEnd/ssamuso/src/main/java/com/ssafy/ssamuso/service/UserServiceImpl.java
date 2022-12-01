@@ -1,6 +1,5 @@
 package com.ssafy.ssamuso.service;
 
-import com.amazonaws.services.ec2.model.UserData;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.entity.Portfolios;
 import com.ssafy.ssamuso.domain.entity.User;
@@ -18,20 +17,23 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImlp {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PortfoliosRepository portfoliosRepository;
     private final UserTechstackRepository userTechstackRepository;
     private final UserDeleteRepository userDeleteRepository;
 
-    Optional<User> findById(Long userId) {
+    @Override
+    public Optional<User> findById(Long userId) {
         return userRepository.findById(userId);
     }
 
+    @Override
     public Optional<User> findByUsername(String name) {
         return userRepository.findByUsername(name);
     }
 
+    @Override
     public Optional<TeammateInfoDTO> findTeammateByUsername(String username) {
         Optional<User> findUser = userRepository.findByUsername(username);
         if (findUser.isEmpty()) {
@@ -56,6 +58,7 @@ public class UserServiceImlp {
         return Optional.of(teammateInfoDTO);
     }
 
+    @Override
     public void deleteUser(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         user.orElseThrow(() -> new IllegalArgumentException("No User"));
