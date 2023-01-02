@@ -99,4 +99,24 @@ public class TestUtil {
                 .build());
     }
 
+    static public Board makeBoard2(User user, String title) {
+        return Board.builder()
+                .title(title)
+                .content("content")
+                .name(user.getUsername())
+                .state(0)
+                .beMax(3)
+                .beNow(2)
+                .feMax(3)
+                .feNow(1)
+                .embMax(3)
+                .embNow(0)
+                .appMax(3)
+                .appNow(3)
+                .uploadDate(LocalDate.now())
+                .deadline(LocalDate.now().plusMonths(1))
+                .user(user)
+                .routingKey(UUID.randomUUID().toString())
+                .build();
+    }
 }

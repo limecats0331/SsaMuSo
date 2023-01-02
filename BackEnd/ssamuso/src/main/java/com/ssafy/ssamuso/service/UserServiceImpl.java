@@ -1,5 +1,6 @@
 package com.ssafy.ssamuso.service;
 
+import com.ssafy.ssamuso.domain.dto.IdentificationDto;
 import com.ssafy.ssamuso.domain.dto.TeammateInfoDTO;
 import com.ssafy.ssamuso.domain.entity.Portfolios;
 import com.ssafy.ssamuso.domain.entity.User;
@@ -67,6 +68,17 @@ public class UserServiceImpl implements UserService {
 
         userDeleteRepository.save(userDelete);
         userRepository.deleteById(user.get().getId());
+    }
+
+    @Override
+    public boolean identify(IdentificationDto identificationDto) {
+        List<String> keyList = userRepository.findRoutingKeyByUsername(identificationDto.getUsername());
+        for (String key : keyList) {
+            if (key.equals(identificationDto.getRoutingKey())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private UserDelete makeDeleteUser(User user) {
